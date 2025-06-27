@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multi-Service Business Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap');
+  </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#0D9488', // Teal - Primary CTA
+              light: '#CCFBF1',  // Lighter Teal for hover/active states
+              dark: '#0F766E',   // Darker Teal for hover/active states
+              accent: '#F59E0B',  // Amber - Accent (e.g., cart badge)
+            },
+            ui: {
+              background: '#F8FAFC', // Slate 50 - Page background
+              surface: '#FFFFFF',     // White - Card/Modal backgrounds
+              border: '#E2E8F0',     // Slate 200 - Subtle borders
+              ring: '#0D9488',       // Teal for focus rings (matches brand.DEFAULT)
+            },
+            content: {
+              primary: '#1E293B',    // Slate 800 - Main text
+              secondary: '#64748B',  // Slate 500 - Secondary text, descriptions
+              subtle: '#94A3B8',     // Slate 400 - Muted info, placeholders
+              inverted: '#FFFFFF',   // White for text on dark/brand backgrounds
+              link: '#0D9488',       // Teal for links, can be content.primary on hover
+            },
+          },
+          fontFamily: {
+            sans: ['Manrope', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', '"Noto Sans"', 'sans-serif', '"Apple Color Emoji"', '"Segoe UI Emoji"', '"Segoe UI Symbol"', '"Noto Color Emoji"'],
+          },
+          borderRadius: {
+            'lg': '0.5rem',    // Default Tailwind lg
+            'xl': '0.75rem',   // Slightly more rounded
+            '2xl': '1rem',     // Even more rounded
+            '3xl': '1.5rem',   // Large rounding for specific elements
+          },
+          boxShadow: {
+            // Refined shadows for a more premium, subtle, "expensive" look
+            'card': '0 2px 8px rgba(0,0,0,0.03), 0 1px 4px rgba(0,0,0,0.02)', // Softer base shadow
+            'card-hover': '0 6px 14px rgba(0,0,0,0.04), 0 3px 7px rgba(0,0,0,0.03)', // Softer, more diffused hover
+            'header': '0 4px 12px rgba(0,0,0,0.04)', // For main section header blocks
+            'modal': '0 10px 25px rgba(0,0,0,0.06), 0 5px 15px rgba(0,0,0,0.05)', // Distinct but soft modal shadow
+            'lg': '0 10px 15px -3px rgba(0,0,0,0.07), 0 4px 6px -4px rgba(0,0,0,0.06)', // Adjusted default lg shadow to be softer
+            'xl': '0 20px 25px -5px rgba(0,0,0,0.07), 0 8px 10px -6px rgba(0,0,0,0.06)', // Adjusted default xl shadow
+            // NEW SHADOWS FOR GLASS BUTTONS:
+            'glass-button-idle': '0 3px 6px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)',
+            'glass-button-hover': '0 5px 10px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.06)',
+            'glass-category-button': '0 4px 12px rgba(0,0,0,0.05), 0 2px 8px rgba(0,0,0,0.04)',
+            'glass-category-button-hover': '0 6px 16px rgba(0,0,0,0.07), 0 3px 10px rgba(0,0,0,0.05)',
+          }
+        }
+      }
+    }
+  </script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react-router-dom": "https://esm.sh/react-router-dom@^7.6.2",
+    "gsap": "https://esm.sh/gsap@^3.13.0",
+    "gsap/": "https://esm.sh/gsap@^3.13.0/",
+    "swiper/react": "https://esm.sh/swiper@11/react",
+    "swiper/modules": "https://esm.sh/swiper@11/modules",
+    "swiper/": "https://esm.sh/swiper@^11.2.8/",
+    "swiper": "https://esm.sh/swiper@^11.2.8"
+  }
+}
+</script>
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  /* Custom scrollbar hiding utility */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+
+  /* Custom Swiper styles */
+  .swiper-pagination-custom .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: #94A3B8; /* content.subtle */
+    opacity: 0.7;
+    transition: background-color 0.3s, opacity 0.3s, transform 0.3s;
+    border-radius: 50%;
+  }
+  .swiper-pagination-custom .swiper-pagination-bullet-active {
+    background-color: #0D9488; /* brand.DEFAULT */
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  .swiper-button-prev-custom,
+  .swiper-button-next-custom {
+      transition: opacity 0.3s, transform 0.3s;
+  }
+  .swiper-button-disabled {
+      opacity: 0.2;
+      transform: scale(0.9);
+      cursor: not-allowed;
+  }
+  
+  /* GSAP animation class */
+  .photobook-image-reveal {
+      overflow: hidden;
+      clip-path: inset(0% 100% 0% 0%); /* Initial state for reveal animation */
+  }
+
+  .photobook-item-animate {
+    opacity: 0; /* Hide elements before animation starts */
+  }
+
+
+</style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-ui-background font-sans">
+  <div id="root"></div>
+
+  <svg style="position:absolute;width:0;height:0">
+    <filter id="frosted-header" primitiveUnits="objectBoundingBox"> {/* Renamed for clarity, now unused by Navbar */}
+      <feGaussianBlur stdDeviation="10" /> 
+      <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo" />
+      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+    </filter>
+  </svg>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
