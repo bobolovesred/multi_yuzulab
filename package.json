@@ -13,6 +13,8 @@
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
     "gsap": "^3.13.0",
+    "swiper/react": "11",
+    "swiper/modules": "11",
     "swiper": "^11.2.8"
   },
   "devDependencies": {
