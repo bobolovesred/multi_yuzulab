@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import type { Studio } from '../types';
@@ -14,7 +13,7 @@ const studiosData: Studio[] = [
     description: 'Просторная студия с естественным светом и разнообразными фонами для самых смелых идей.', 
     detailedDescription: 'Лофт Студия "Атмосфера" – это 120 кв.м. творческого пространства с высокими потолками (4.5м) и большими окнами, обеспечивающими превосходное естественное освещение. Несколько фактурных стен (кирпич, бетон, дерево), бумажные и тканевые фоны. Идеально для портретной, семейной и коммерческой съемки.',
     hourlyRate: 1500, 
-    imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/studio_atmosfera.jpg', 'https://picsum.photos/seed/studio1_alt1/600/450', 'https://picsum.photos/seed/studio1_alt2/600/450'],
+    imageUrls: ['/images/photostudio/enakievo/1.png'],
     amenities: ['Естественный свет', 'Профессиональные вспышки', 'Бумажные фоны', 'Тканевые фоны', 'Гримерка', 'Wi-Fi', 'Чай/кофе']
   },
   { 
@@ -24,7 +23,7 @@ const studiosData: Studio[] = [
     description: 'Современное оборудование, белоснежная циклорама и цветные фильтры для фэшн-съемок.', 
     detailedDescription: 'Арт-пространство "Креатив" предлагает белую циклораму (5x4м), комплект импульсного света Godox, разнообразные насадки и цветные гелевые фильтры. Подходит для фэшн-съемок, каталогов, видео и творческих проектов. Есть отдельная зона для макияжа и переодевания.',
     hourlyRate: 1200, 
-    imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/studio_kreativ.jpg', 'https://picsum.photos/seed/studio2_alt1/600/450'],
+    imageUrls: ['/images/photostudio/kirovskoe/1.png'],
     amenities: ['Циклорама', 'Импульсный свет', 'Софтбоксы/Октобоксы', 'Цветные фильтры', 'Кондиционер', 'Музыкальная система']
   },
   { 
@@ -34,7 +33,7 @@ const studiosData: Studio[] = [
     description: 'Создана для самых теплых и душевных семейных и детских фотосессий.', 
     detailedDescription: 'Фотостудия "Уют" создана для самых теплых и душевных съемок. Мягкий свет, разнообразный реквизит для детей (игрушки, пледы, корзинки), несколько уютных фотозон с диванчиками и креслами. Комфортная атмосфера для малышей и их родителей.',
     hourlyRate: 1000, 
-    imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/studio_uyut.jpg'],
+    imageUrls: ['/images/photostudio/shahtersk/1.png'],
     amenities: ['Детский реквизит', 'Мягкие игрушки', 'Несколько фотозон', 'Теплый пол', 'Пеленальный столик']
   },
   { 
@@ -44,7 +43,7 @@ const studiosData: Studio[] = [
     description: 'Большие окна, панорамный вид на город и профессиональный постоянный свет.', 
     detailedDescription: 'Студия "Панорама" впечатляет своими огромными окнами от пола до потолка, открывающими захватывающий вид на город. Обилие естественного света дополняется профессиональным студийным оборудованием. Отличное место для имиджевых съемок и мероприятий.',
     hourlyRate: 1800, 
-    imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/studio_panorama.jpg', 'https://picsum.photos/seed/studio4_alt1/600/450', 'https://picsum.photos/seed/studio4_alt2/600/450'],
+    imageUrls: ['/images/photostudio/enakievo/2.png'],
     amenities: ['Панорамные окна', 'Вид на город', 'Постоянный свет', 'Отражатели', 'Вентилятор', 'Просторная гримерка']
   },
 ];
@@ -142,6 +141,8 @@ const StudioListItem: React.FC<{ studio: Studio }> = ({ studio }) => {
 export const PhotoStudios: React.FC = () => {
   const [selectedCity, setSelectedCity] = useState<City | ''>('');
   const [displayedStudios, setDisplayedStudios] = useState<Studio[]>(studiosData);
+  const [isHiding, setIsHiding] = useState(false);
+  const [pendingCity, setPendingCity] = useState<City | ''>('');
 
   const listRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
@@ -159,20 +160,15 @@ export const PhotoStudios: React.FC = () => {
     }
   }, []);
 
-  // Handle filtering logic and animation
+  // Новый useEffect для анимации скрытия карточек при смене фильтра
   useEffect(() => {
-    // Skip animation on the very first render
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      return;
-    }
-    
-    const newFilteredStudios = selectedCity === '' ? studiosData : studiosData.filter(s => s.city === selectedCity);
+    if (pendingCity === ('' as City | '')) return;
+    if (isInitialMount.current) return;
     const listEl = listRef.current;
     if (!listEl) return;
-    
     const cards = Array.from(listEl.children);
     if (cards.length > 0) {
+      setIsHiding(true);
       gsap.to(cards, {
         opacity: 0,
         y: 20,
@@ -181,15 +177,46 @@ export const PhotoStudios: React.FC = () => {
         stagger: 0.05,
         ease: 'power2.in',
         onComplete: () => {
-          setDisplayedStudios(newFilteredStudios);
+          setDisplayedStudios((pendingCity as string) === '' ? studiosData : studiosData.filter(s => s.city === pendingCity));
+          setSelectedCity(pendingCity);
+          setPendingCity('');
+          setIsHiding(false);
         },
       });
     } else {
-      // If the list was empty, just set the new data
-      setDisplayedStudios(newFilteredStudios);
+      setDisplayedStudios((pendingCity as string) === '' ? studiosData : studiosData.filter(s => s.city === pendingCity));
+      setSelectedCity(pendingCity);
+      setPendingCity('');
+      setIsHiding(false);
     }
-  }, [selectedCity]);
-  
+  }, [pendingCity]);
+
+  // Анимация появления новых карточек после смены фильтра
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    if (isHiding) return;
+    const listEl = listRef.current;
+    if (!listEl) return;
+    const cards = Array.from(listEl.children);
+    if (cards.length > 0) {
+      gsap.fromTo(cards, {
+        opacity: 0,
+        y: 20,
+        scale: 0.98,
+      }, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.5,
+        stagger: 0.08,
+        ease: 'power2.out',
+      });
+    }
+  }, [displayedStudios, isHiding]);
+
   const cityOptions = [
     { value: '', label: 'Все города' },
     { value: City.ENAKIEVO, label: City.ENAKIEVO },
@@ -208,7 +235,10 @@ export const PhotoStudios: React.FC = () => {
         {cityOptions.map(option => (
           <Button 
             key={option.value} 
-            onClick={() => setSelectedCity(option.value as City | '')} 
+            onClick={() => {
+              if (option.value === selectedCity || isHiding || pendingCity) return;
+              setPendingCity(option.value as City | '');
+            }} 
             variant={selectedCity === option.value ? 'primary' : 'glass'}
             className="!rounded-full"
             size="md"

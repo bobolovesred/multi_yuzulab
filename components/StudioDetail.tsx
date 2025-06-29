@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { Studio, BookingSlot } from '../types';
@@ -6,10 +5,10 @@ import { City } from '../types'; // Assuming City enum is needed
 // Data source - similar to FlowerDetail, this would be fetched or from context.
 // For mockup, redefine or ensure it's available.
 const FAKE_STUDIO_DATA_SOURCE: Studio[] = [
- { id: 's1', name: 'Лофт Студия "Атмосфера"', city: City.ENAKIEVO, description: 'Просторная студия с естественным светом и разнообразными фонами.', detailedDescription: 'Лофт Студия "Атмосфера" – это 120 кв.м. творческого пространства с высокими потолками (4.5м) и большими окнами, обеспечивающими превосходное естественное освещение. Несколько фактурных стен (кирпич, бетон, дерево), бумажные и тканевые фоны. Идеально для портретной, семейной и коммерческой съемки.', hourlyRate: 1500, imageUrls: ['https://picsum.photos/seed/studio1_page_large/800/600', 'https://picsum.photos/seed/studio1_alt1/800/600', 'https://picsum.photos/seed/studio1_alt2/800/600'], amenities: ['Естественный свет', 'Профессиональные вспышки (2 шт.)', 'Бумажные фоны', 'Тканевые фоны', 'Гримерка', 'Wi-Fi', 'Чай/кофе']},
- { id: 's2', name: 'Арт-пространство "Креатив"', city: City.KIROVSKOE, description: 'Современное оборудование, циклорама, цветные фильтры.', detailedDescription: 'Арт-пространство "Креатив" предлагает белую циклораму (5x4м), комплект импульсного света Godox, разнообразные насадки и цветные гелевые фильтры. Подходит для фэшн-съемок, каталогов, видео и творческих проектов. Есть отдельная зона для макияжа и переодевания.', hourlyRate: 1200, imageUrls: ['https://picsum.photos/seed/studio2_page_large/800/600', 'https://picsum.photos/seed/studio2_alt1/800/600'], amenities: ['Циклорама', 'Импульсный свет (3 шт.)', 'Софтбоксы/Октобоксы', 'Цветные фильтры', 'Кондиционер', 'Музыкальная система']},
- { id: 's3', name: 'Фотостудия "Уют"', city: City.SHAKHTERSK, description: 'Уютная студия для семейных и детских фотосессий.', detailedDescription: 'Фотостудия "Уют" создана для самых теплых и душевных съемок. Мягкий свет, разнообразный реквизит для детей (игрушки, пледы, корзинки), несколько уютных фотозон с диванчиками и креслами. Комфортная атмосфера для малышей и их родителей.', hourlyRate: 1000, imageUrls: ['https://picsum.photos/seed/studio3_page_large/800/600'], amenities: ['Детский реквизит', 'Мягкие игрушки', 'Несколько фотозон', 'Теплый пол', 'Пеленальный столик']},
- { id: 's4', name: 'Студия "Панорама"', city: City.ENAKIEVO, description: 'Большие окна, панорамный вид, профессиональный свет.', detailedDescription: 'Студия "Панорама" впечатляет своими огромными окнами от пола до потолка, открывающими захватывающий вид на город. Обилие естественного света дополняется профессиональным студийным оборудованием. Отличное место для имиджевых съемок и мероприятий.', hourlyRate: 1800, imageUrls: ['https://picsum.photos/seed/studio4_page_large/800/600', 'https://picsum.photos/seed/studio4_alt1/800/600', 'https://picsum.photos/seed/studio4_alt2/800/600'], amenities: ['Панорамные окна', 'Вид на город', 'Постоянный свет (2 шт.)', 'Отражатели', 'Вентилятор', 'Просторная гримерка']},
+ { id: 's1', name: 'Лофт Студия "Атмосфера"', city: City.ENAKIEVO, description: 'Просторная студия с естественным светом и разнообразными фонами.', detailedDescription: 'Лофт Студия "Атмосфера" – это 120 кв.м. творческого пространства с высокими потолками (4.5м) и большими окнами, обеспечивающими превосходное естественное освещение. Несколько фактурных стен (кирпич, бетон, дерево), бумажные и тканевые фоны. Идеально для портретной, семейной и коммерческой съемки.', hourlyRate: 1500, imageUrls: ['/images/photostudio/enakievo/1.png'], amenities: ['Естественный свет', 'Профессиональные вспышки (2 шт.)', 'Бумажные фоны', 'Тканевые фоны', 'Гримерка', 'Wi-Fi', 'Чай/кофе']},
+ { id: 's2', name: 'Арт-пространство "Креатив"', city: City.KIROVSKOE, description: 'Современное оборудование, циклорама, цветные фильтры.', detailedDescription: 'Арт-пространство "Креатив" предлагает белую циклораму (5x4м), комплект импульсного света Godox, разнообразные насадки и цветные гелевые фильтры. Подходит для фэшн-съемок, каталогов, видео и творческих проектов. Есть отдельная зона для макияжа и переодевания.', hourlyRate: 1200, imageUrls: ['/images/photostudio/kirovskoe/1.png'], amenities: ['Циклорама', 'Импульсный свет (3 шт.)', 'Софтбоксы/Октобоксы', 'Цветные фильтры', 'Кондиционер', 'Музыкальная система']},
+ { id: 's3', name: 'Фотостудия "Уют"', city: City.SHAKHTERSK, description: 'Уютная студия для семейных и детских фотосессий.', detailedDescription: 'Фотостудия "Уют" создана для самых теплых и душевных съемок. Мягкий свет, разнообразный реквизит для детей (игрушки, пледы, корзинки), несколько уютных фотозон с диванчиками и креслами. Комфортная атмосфера для малышей и их родителей.', hourlyRate: 1000, imageUrls: ['/images/photostudio/shahtersk/1.png'], amenities: ['Детский реквизит', 'Мягкие игрушки', 'Несколько фотозон', 'Теплый пол', 'Пеленальный столик']},
+ { id: 's4', name: 'Студия "Панорама"', city: City.ENAKIEVO, description: 'Большие окна, панорамный вид, профессиональный свет.', detailedDescription: 'Студия "Панорама" впечатляет своими огромными окнами от пола до потолка, открывающими захватывающий вид на город. Обилие естественного света дополняется профессиональным студийным оборудованием. Отличное место для имиджевых съемок и мероприятий.', hourlyRate: 1800, imageUrls: ['/images/photostudio/enakievo/2.png'], amenities: ['Панорамные окна', 'Вид на город', 'Постоянный свет (2 шт.)', 'Отражатели', 'Вентилятор', 'Просторная гримерка']},
 ];
 
 import { Button } from './common/Button';
@@ -19,6 +18,17 @@ import { gsap } from 'gsap';
 
 // CalendarView and BookingForm components are similar to those in PhotoStudios.tsx
 // They are adapted here for use within StudioDetail.
+
+// Хук для определения мобильного режима
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 640);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 640);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+  return isMobile;
+}
 
 const generateSlotsForMonth = (studioId: string, year: number, month: number): BookingSlot[] => {
   const slots: BookingSlot[] = [];
@@ -41,10 +51,12 @@ const generateSlotsForMonth = (studioId: string, year: number, month: number): B
 
 const CalendarView: React.FC<{ studio: Studio, slots: BookingSlot[], onBookSlot: (slot: BookingSlot) => void }> = ({ studio, slots, onBookSlot }) => {
   const [currentDisplayDate, setCurrentDisplayDate] = useState(new Date());
+  const [selectedDay, setSelectedDay] = useState<number | null>(null); // Для мобильного выбора дня
   const calendarRef = useRef<HTMLDivElement>(null);
   const today = new Date(); today.setHours(0,0,0,0);
   const currentYear = currentDisplayDate.getFullYear();
   const currentMonth = currentDisplayDate.getMonth();
+  const isMobile = useIsMobile();
 
   const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
@@ -62,14 +74,82 @@ const CalendarView: React.FC<{ studio: Studio, slots: BookingSlot[], onBookSlot:
   const handleMonthChange = (offset: number) => {
     if (calendarRef.current) gsap.fromTo(calendarRef.current, {opacity: 0.5}, {opacity: 1, duration: 0.3});
     setCurrentDisplayDate(prev => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
+    setSelectedDay(null); // Сброс выбора дня при смене месяца
   };
 
   const weekdays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
   useEffect(() => {
     if (calendarRef.current) gsap.fromTo(calendarRef.current, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5, ease: 'power2.out'});
-  }, [studio]);
+  }, [studio, isMobile]);
 
+  // --- Мобильная версия ---
+  if (isMobile) {
+    const renderTimeSection = () => {
+      if (selectedDay == null) return null;
+      const slotsForDay = availableTimesForDay(selectedDay);
+      const currentDate = new Date(currentYear, currentMonth, selectedDay);
+      const isPast = currentDate < today;
+      return (
+        <div className="mt-4 bg-ui-surface rounded-2xl shadow-modal p-4 border border-ui-border animate-fadeIn">
+          <div className="flex justify-between items-center mb-2">
+            <span className="text-base font-semibold text-content-primary">Выберите время: {selectedDay} {currentDisplayDate.toLocaleString('default', { month: 'long' })}</span>
+            <button onClick={() => setSelectedDay(null)} className="text-2xl text-content-subtle hover:text-content-primary px-2 py-1 rounded-full hover:bg-ui-background" aria-label="Закрыть">&times;</button>
+          </div>
+          {isPast && <div className="text-content-subtle text-center py-6">Этот день уже прошёл</div>}
+          {!isPast && slotsForDay.length === 0 && <div className="text-content-subtle text-center py-6">Нет свободных слотов</div>}
+          {!isPast && slotsForDay.length > 0 && (
+            <div className="flex flex-wrap gap-2 justify-center py-2">
+              {slotsForDay.map(slot => (
+                <Button key={slot.time} onClick={() => { onBookSlot(slot); setSelectedDay(null); }} variant="glass" size="md" className="text-base px-4 py-2 !rounded-lg min-w-[80px]">{slot.time}</Button>
+              ))}
+            </div>
+          )}
+        </div>
+      );
+    };
+    return (
+      <div ref={calendarRef} className="mt-6 p-3 bg-ui-background rounded-2xl shadow-inner border border-ui-border" style={{ opacity: 0 }}>
+        <h4 className="text-lg font-semibold mb-3 text-content-primary">Календарь бронирования</h4>
+        <div className="flex justify-between items-center mb-3">
+          <Button onClick={() => handleMonthChange(-1)} variant="outline" size="sm">&lt;</Button>
+          <h5 className="text-base font-medium text-content-primary">
+            {currentDisplayDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
+          </h5>
+          <Button onClick={() => handleMonthChange(1)} variant="outline" size="sm">&gt;</Button>
+        </div>
+        <div className="grid grid-cols-7 gap-1 text-center text-xs text-content-secondary mb-2">
+          {weekdays.map(wd => <div key={wd}>{wd}</div>)}
+        </div>
+        <div className="grid grid-cols-7 gap-1">
+          {dayCells.map((day, index) => {
+            if (day === null) return <div key={`empty-${index}`} className="border border-ui-border rounded-lg p-1 aspect-square"></div>;
+            const currentDate = new Date(currentYear, currentMonth, day);
+            const isPast = currentDate < today;
+            const isToday = currentDate.getTime() === today.getTime();
+            const hasSlots = availableTimesForDay(day).length > 0;
+            return (
+              <button
+                key={day}
+                className={`border rounded-lg aspect-square flex flex-col items-center justify-center focus:outline-none transition-all duration-100
+                  ${isPast ? 'bg-slate-100 text-content-subtle cursor-not-allowed' : hasSlots ? 'bg-white hover:bg-brand-light/30 cursor-pointer' : 'bg-slate-50 text-content-subtle cursor-not-allowed'}
+                  ${isToday ? 'border-brand-DEFAULT ring-1 ring-brand-DEFAULT' : 'border-ui-border'}
+                  ${selectedDay === day ? 'ring-2 ring-brand-DEFAULT border-brand-DEFAULT' : ''}`}
+                disabled={isPast || !hasSlots}
+                onClick={() => setSelectedDay(day)}
+                style={{ minHeight: 44 }}
+              >
+                <span className={`font-medium text-xs ${isToday ? 'text-brand-DEFAULT' : 'text-content-primary'}`}>{day}</span>
+              </button>
+            );
+          })}
+        </div>
+        {renderTimeSection()}
+      </div>
+    );
+  }
+
+  // --- Десктопная версия ---
   return (
     <div ref={calendarRef} className="mt-6 p-4 sm:p-6 bg-ui-background rounded-2xl shadow-inner border border-ui-border" style={{ opacity: 0 }}>
       <h4 className="text-xl font-semibold mb-4 text-content-primary">Календарь бронирования</h4>
