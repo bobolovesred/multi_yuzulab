@@ -1,9 +1,6 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import type { MasterClassEvent, HallRentalInfo } from '../types';
 import { Button } from './common/Button';
-import { Modal } from './common/Modal';
-import { InputField } from './common/InputField';
 import { gsap } from 'gsap';
 import { Link } from 'react-router-dom';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -231,9 +228,9 @@ export const MasterClasses: React.FC = () => {
             const heroButtons = heroRef.current?.querySelector('.g-buttons');
             
             const tl = gsap.timeline({ defaults: { ease: 'power3.out' }});
-            tl.fromTo(heroRef.current, {autoAlpha:0}, {autoAlpha:1, duration:0.4})
-              .fromTo([heroTitle, heroSubtitle].filter(Boolean), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, stagger:0.2, duration: 0.6 }, "-=0.2")
-              .fromTo(heroButtons, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.5}, "-=0.3");
+            if (heroRef.current) tl.fromTo(heroRef.current, {autoAlpha:0}, {autoAlpha:1, duration:0.4});
+            if (heroTitle || heroSubtitle) tl.fromTo([heroTitle, heroSubtitle].filter(Boolean), { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, stagger:0.2, duration: 0.6 }, "-=0.2");
+            if (heroButtons) tl.fromTo(heroButtons, { autoAlpha: 0, y: 20 }, { autoAlpha: 1, y: 0, duration: 0.5}, "-=0.3");
 
             const animateSectionTitle = (selector: string) => {
                 gsap.fromTo(selector, { autoAlpha: 0, y: 20 }, {
@@ -267,7 +264,7 @@ export const MasterClasses: React.FC = () => {
         }
     }, [bookingMessage]);
 
-    const scrollToSection = (ref: React.RefObject<HTMLElement>) => {
+    const scrollToSection = (ref: React.RefObject<HTMLElement | null>) => {
         ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 

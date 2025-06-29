@@ -9,16 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "gsap": "^3.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.6.2",
-    "gsap": "^3.13.0",
-    "swiper/react": "11",
-    "swiper/modules": "11",
-    "swiper": "^11.2.8"
+    "swiper": "11"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
     "typescript": "~5.7.2",
     "vite": "^6.2.0"
   }

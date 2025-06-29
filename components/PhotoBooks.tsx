@@ -198,7 +198,7 @@ export const PhotoBooks: React.FC = () => {
   useEffect(() => {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.6 } });
 
-    const animateSection = (ref: React.RefObject<HTMLElement>, childrenSelector?: string, stagger: number = 0.15) => {
+    const animateSection = (ref: React.RefObject<HTMLElement | null>, childrenSelector?: string, stagger: number = 0.15) => {
         if (ref.current) {
             const elements = childrenSelector ? Array.from(ref.current.querySelectorAll(childrenSelector)) : [ref.current];
             if (elements.length > 0) {
@@ -272,7 +272,7 @@ export const PhotoBooks: React.FC = () => {
         div.className = "mb-4 last:mb-0";
         const img = document.createElement('img');
         img.src = imgUrl;
-        img.alt = `Пример фотокниги ${selectedFormat.name} ${(index % selectedFormat.exampleGalleryImages.length) + 1}`;
+        img.alt = `Пример фотокниги ${selectedFormat.name} ${selectedFormat.exampleGalleryImages ? (index % selectedFormat.exampleGalleryImages.length) + 1 : ''}`;
         img.className = "w-full h-auto object-cover rounded-lg shadow-md aspect-[3/2]";
         div.appendChild(img);
         galleryWrapper.appendChild(div);

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
@@ -9,7 +8,7 @@ interface ModalProps {
   title?: string;
 }
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<gsap.core.Timeline | null>(null);
@@ -72,9 +71,9 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, title }
       <div 
         ref={contentRef}
         className="bg-ui-surface rounded-2xl shadow-modal p-6 sm:p-8 w-full max-w-lg max-h-[90vh] overflow-y-auto"
-        onClick={(e) => e.stopPropagation()} 
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()} 
       >
-        {(title || onClose) && (
+        {(title) && (
           <div className="flex justify-between items-start mb-4 sm:mb-6">
             {title && <h3 id="modal-title" className="text-xl sm:text-2xl font-semibold text-content-primary">{title}</h3>}
             <button 
