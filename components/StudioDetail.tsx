@@ -51,7 +51,7 @@ const generateSlotsForMonth = (studioId: string, year: number, month: number): B
 
 const CalendarView: React.FC<{ studio: Studio, slots: BookingSlot[], onBookSlot: (slot: BookingSlot) => void }> = ({ studio, slots, onBookSlot }) => {
   const [currentDisplayDate, setCurrentDisplayDate] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState<number | null>(null); // Для мобильного выбора дня
+  const [selectedDay, setSelectedDay] = useState<number | null>(null); // Для выбора дня
   const calendarRef = useRef<HTMLDivElement>(null);
   const today = new Date(); today.setHours(0,0,0,0);
   const currentYear = currentDisplayDate.getFullYear();
@@ -83,79 +83,37 @@ const CalendarView: React.FC<{ studio: Studio, slots: BookingSlot[], onBookSlot:
     if (calendarRef.current) gsap.fromTo(calendarRef.current, {opacity: 0, y: 20}, {opacity: 1, y: 0, duration: 0.5, ease: 'power2.out'});
   }, [studio, isMobile]);
 
-  // --- Мобильная версия ---
-  if (isMobile) {
-    const renderTimeSection = () => {
-      if (selectedDay == null) return null;
-      const slotsForDay = availableTimesForDay(selectedDay);
-      const currentDate = new Date(currentYear, currentMonth, selectedDay);
-      const isPast = currentDate < today;
-      return (
-        <div className="mt-4 bg-ui-surface rounded-2xl shadow-modal p-4 border border-ui-border animate-fadeIn">
-          <div className="flex justify-between items-center mb-2">
-            <span className="text-base font-semibold text-content-primary">Выберите время: {selectedDay} {currentDisplayDate.toLocaleString('default', { month: 'long' })}</span>
-            <button onClick={() => setSelectedDay(null)} className="text-2xl text-content-subtle hover:text-content-primary px-2 py-1 rounded-full hover:bg-ui-background" aria-label="Закрыть">&times;</button>
-          </div>
-          {isPast && <div className="text-content-subtle text-center py-6">Этот день уже прошёл</div>}
-          {!isPast && slotsForDay.length === 0 && <div className="text-content-subtle text-center py-6">Нет свободных слотов</div>}
-          {!isPast && slotsForDay.length > 0 && (
-            <div className="flex flex-wrap gap-2 justify-center py-2">
-              {slotsForDay.map(slot => (
-                <Button key={slot.time} onClick={() => { onBookSlot(slot); setSelectedDay(null); }} variant="glass" size="md" className="text-base px-4 py-2 !rounded-lg min-w-[80px]">{slot.time}</Button>
-              ))}
-            </div>
-          )}
-        </div>
-      );
-    };
+  // --- Универсальная версия (и для мобилы, и для десктопа) ---
+  const renderTimeSection = () => {
+    if (selectedDay == null) return null;
+    const slotsForDay = availableTimesForDay(selectedDay);
+    const currentDate = new Date(currentYear, currentMonth, selectedDay);
+    const isPast = currentDate < today;
     return (
-      <div ref={calendarRef} className="mt-6 p-3 bg-ui-background rounded-2xl shadow-inner border border-ui-border" style={{ opacity: 0 }}>
-        <h4 className="text-lg font-semibold mb-3 text-content-primary">Календарь бронирования</h4>
-        <div className="flex justify-between items-center mb-3">
-          <Button onClick={() => handleMonthChange(-1)} variant="outline" size="sm">&lt;</Button>
-          <h5 className="text-base font-medium text-content-primary">
-            {currentDisplayDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
-          </h5>
-          <Button onClick={() => handleMonthChange(1)} variant="outline" size="sm">&gt;</Button>
+      <div className="mt-4 bg-ui-surface rounded-2xl shadow-modal p-4 border border-ui-border animate-fadeIn">
+        <div className="flex justify-between items-center mb-2">
+          <span className="text-base font-semibold text-content-primary">Выберите время: {selectedDay} {currentDisplayDate.toLocaleString('default', { month: 'long' })}</span>
+          <button onClick={() => setSelectedDay(null)} className="text-2xl text-content-subtle hover:text-content-primary px-2 py-1 rounded-full hover:bg-ui-background" aria-label="Закрыть">&times;</button>
         </div>
-        <div className="grid grid-cols-7 gap-1 text-center text-xs text-content-secondary mb-2">
-          {weekdays.map(wd => <div key={wd}>{wd}</div>)}
-        </div>
-        <div className="grid grid-cols-7 gap-1">
-          {dayCells.map((day, index) => {
-            if (day === null) return <div key={`empty-${index}`} className="border border-ui-border rounded-lg p-1 aspect-square"></div>;
-            const currentDate = new Date(currentYear, currentMonth, day);
-            const isPast = currentDate < today;
-            const isToday = currentDate.getTime() === today.getTime();
-            const hasSlots = availableTimesForDay(day).length > 0;
-            return (
-              <button
-                key={day}
-                className={`border rounded-lg aspect-square flex flex-col items-center justify-center focus:outline-none transition-all duration-100
-                  ${isPast ? 'bg-slate-100 text-content-subtle cursor-not-allowed' : hasSlots ? 'bg-white hover:bg-brand-light/30 cursor-pointer' : 'bg-slate-50 text-content-subtle cursor-not-allowed'}
-                  ${isToday ? 'border-brand-DEFAULT ring-1 ring-brand-DEFAULT' : 'border-ui-border'}
-                  ${selectedDay === day ? 'ring-2 ring-brand-DEFAULT border-brand-DEFAULT' : ''}`}
-                disabled={isPast || !hasSlots}
-                onClick={() => setSelectedDay(day)}
-                style={{ minHeight: 44 }}
-              >
-                <span className={`font-medium text-xs ${isToday ? 'text-brand-DEFAULT' : 'text-content-primary'}`}>{day}</span>
-              </button>
-            );
-          })}
-        </div>
-        {renderTimeSection()}
+        {isPast && <div className="text-content-subtle text-center py-6">Этот день уже прошёл</div>}
+        {!isPast && slotsForDay.length === 0 && <div className="text-content-subtle text-center py-6">Нет свободных слотов</div>}
+        {!isPast && slotsForDay.length > 0 && (
+          <div className="flex flex-wrap gap-2 justify-center py-2">
+            {slotsForDay.map(slot => (
+              <Button key={slot.time} onClick={() => { onBookSlot(slot); setSelectedDay(null); }} variant="glass" size="md" className="text-base px-4 py-2 !rounded-lg min-w-[80px]">{slot.time}</Button>
+            ))}
+          </div>
+        )}
       </div>
     );
-  }
+  };
 
-  // --- Десктопная версия ---
   return (
-    <div ref={calendarRef} className="mt-6 p-4 sm:p-6 bg-ui-background rounded-2xl shadow-inner border border-ui-border" style={{ opacity: 0 }}>
-      <h4 className="text-xl font-semibold mb-4 text-content-primary">Календарь бронирования</h4>
-      <div className="flex justify-between items-center mb-4">
+    <div ref={calendarRef} className={`mt-6 p-3 sm:p-6 bg-ui-background rounded-2xl shadow-inner border border-ui-border${isMobile ? '' : ' animate-fadeIn'}`} style={{ opacity: 0 }}>
+      <h4 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-content-primary">Календарь бронирования</h4>
+      <div className="flex justify-between items-center mb-3 sm:mb-4">
         <Button onClick={() => handleMonthChange(-1)} variant="outline" size="sm">&lt;</Button>
-        <h5 className="text-lg font-medium text-content-primary">
+        <h5 className="text-base sm:text-lg font-medium text-content-primary">
           {currentDisplayDate.toLocaleString('default', { month: 'long', year: 'numeric' })}
         </h5>
         <Button onClick={() => handleMonthChange(1)} variant="outline" size="sm">&gt;</Button>
@@ -167,25 +125,26 @@ const CalendarView: React.FC<{ studio: Studio, slots: BookingSlot[], onBookSlot:
         {dayCells.map((day, index) => {
           if (day === null) return <div key={`empty-${index}`} className="border border-ui-border rounded-lg p-1 aspect-square"></div>;
           const currentDate = new Date(currentYear, currentMonth, day);
-          const daySlots = availableTimesForDay(day);
           const isPast = currentDate < today;
           const isToday = currentDate.getTime() === today.getTime();
+          const hasSlots = availableTimesForDay(day).length > 0;
           return (
-            <div key={day} className={`border rounded-lg p-1.5 aspect-square flex flex-col items-center justify-start ${isPast ? 'bg-slate-100 text-content-subtle cursor-not-allowed' : 'bg-white hover:bg-brand-light/20'} ${isToday ? 'border-brand-DEFAULT ring-1 ring-brand-DEFAULT' : 'border-ui-border'}`}>
+            <button
+              key={day}
+              className={`border rounded-lg aspect-square flex flex-col items-center justify-center focus:outline-none transition-all duration-100
+                ${isPast ? 'bg-slate-100 text-content-subtle cursor-not-allowed' : hasSlots ? 'bg-white hover:bg-brand-light/30 cursor-pointer' : 'bg-slate-50 text-content-subtle cursor-not-allowed'}
+                ${isToday ? 'border-brand-DEFAULT ring-1 ring-brand-DEFAULT' : 'border-ui-border'}
+                ${selectedDay === day ? 'ring-2 ring-brand-DEFAULT border-brand-DEFAULT' : ''}`}
+              disabled={isPast || !hasSlots}
+              onClick={() => setSelectedDay(day)}
+              style={{ minHeight: 44 }}
+            >
               <span className={`font-medium text-xs ${isToday ? 'text-brand-DEFAULT' : 'text-content-primary'}`}>{day}</span>
-              {!isPast && daySlots.length > 0 && (
-                <div className="mt-1 space-y-0.5 w-full flex flex-col items-center">
-                  {daySlots.slice(0, 2).map(slot => (
-                    <Button key={slot.time} onClick={() => onBookSlot(slot)} variant="glass" size="sm" className="text-[10px] !p-0.5 w-full truncate leading-tight !rounded-md">{slot.time}</Button>
-                  ))}
-                  {daySlots.length > 2 && <span className="text-[9px] text-brand-DEFAULT cursor-pointer" onClick={() => onBookSlot(daySlots[0])}>еще...</span>}
-                </div>
-              )}
-              {!isPast && daySlots.length === 0 && <div className="text-[9px] text-content-subtle mt-1 text-center leading-tight">Нет слотов</div>}
-            </div>
+            </button>
           );
         })}
       </div>
+      {renderTimeSection()}
     </div>
   );
 };

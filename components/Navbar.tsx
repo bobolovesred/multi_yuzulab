@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
+import { MdShoppingCart } from 'react-icons/md';
 
 const Bars3Icon: React.FC<{ className?: string }> = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
@@ -19,12 +19,6 @@ const XMarkIcon: React.FC<{ className?: string }> = ({ className }) => (
 const UserCircleIcon: React.FC<{ className?: string }> = ({ className }) => (
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-  </svg>
-);
-
-const ShoppingCartIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c.51 0 .962-.328 1.093-.828l2.91-6.616c.254-.576-.051-1.246-.66-1.246H5.168" />
   </svg>
 );
 
@@ -171,7 +165,7 @@ export const Navbar: React.FC = () => {
                               aria-label={`Корзина, ${itemCount} товаров`} 
                               className="relative p-1.5 rounded-full text-content-primary hover:text-brand-dark hover:bg-brand-light/30 focus:outline-none focus:ring-2 focus:ring-brand-DEFAULT focus:ring-offset-2 focus:ring-offset-ui-surface transition-colors"
                             >
-                                <ShoppingCartIcon className="h-6 w-6" />
+                                <MdShoppingCart className="h-6 w-6" />
                                 {itemCount > 0 && (
                                     <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-accent text-white text-[10px] font-bold ring-2 ring-ui-surface">
                                         {itemCount}
@@ -189,7 +183,7 @@ export const Navbar: React.FC = () => {
                           aria-label={`Корзина, ${itemCount} товаров`}
                           className="relative p-2 text-content-primary hover:text-brand-dark hover:bg-brand-light/30 rounded-full transition-all"
                       >
-                          <ShoppingCartIcon className="h-7 w-7" />
+                          <MdShoppingCart className="h-7 w-7" />
                            {itemCount > 0 && (
                                <span className="absolute top-0 right-0 flex h-5 w-5 items-center justify-center rounded-full bg-brand-accent text-white text-[10px] font-bold ring-2 ring-ui-surface">
                                    {itemCount}

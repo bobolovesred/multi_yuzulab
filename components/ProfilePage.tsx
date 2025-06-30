@@ -1,13 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { Button } from './common/Button';
-
-// SVG Icons
-const ArrowRightOnRectangleIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
-  </svg>
-);
+import { HiOutlineArrowRightOnRectangle } from 'react-icons/hi2';
 
 // Mock data
 const user = {
@@ -108,7 +102,7 @@ export const ProfilePage: React.FC = () => {
                                 variant="outline" 
                                 className="w-full sm:w-auto !border-red-500/50 !text-red-600 hover:!bg-red-500/10 hover:!text-red-700"
                             >
-                                <ArrowRightOnRectangleIcon className="w-5 h-5 mr-2" />
+                                <HiOutlineArrowRightOnRectangle className="w-5 h-5 mr-2" />
                                 Выйти из аккаунта
                             </Button>
                         </div>

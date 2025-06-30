@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { HashRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
@@ -18,17 +17,17 @@ import { CartPage } from './components/CartPage';
 
 const AppContent: React.FC = () => {
   const location = useLocation();
-  const navigate = useNavigate();
-  const initialLoadRef = useRef(true);
+  // const navigate = useNavigate();
+  // const initialLoadRef = useRef(true);
 
-  useEffect(() => {
-    if (initialLoadRef.current) {
-      initialLoadRef.current = false; 
-      if (location.pathname !== '/') {
-        navigate('/', { replace: true });
-      }
-    }
-  }, [location.pathname, navigate]);
+  // useEffect(() => {
+  //   if (initialLoadRef.current) {
+  //     initialLoadRef.current = false; 
+  //     if (location.pathname !== '/') {
+  //       navigate('/', { replace: true });
+  //     }
+  //   }
+  // }, [location.pathname, navigate]);
 
   const isLobby = location.pathname === '/';
   const showNavbar = !isLobby;

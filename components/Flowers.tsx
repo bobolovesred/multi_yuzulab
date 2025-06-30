@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import type { FlowerProduct, CartItem, Store } from '../types';
@@ -9,102 +7,40 @@ import { Modal } from './common/Modal';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
 import { InputField } from './common/InputField';
 import { gsap } from 'gsap';
-
-// --- ICONS ---
-const HeartIcon: React.FC<{className?: string}> = ({className}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${className}`}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-  </svg>
-);
-const StarIcon: React.FC<{className?: string}> = ({className}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={`w-4 h-4 ${className}`}>
-    <path fillRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" clipRule="evenodd" />
-  </svg>
-);
-const FilterIcon: React.FC<{className?: string}> = ({className}) => (
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className={`w-5 h-5 ${className}`}>
-  <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 12h9.75m-9.75 6h9.75M3.75 6h1.5M3.75 12h1.5M3.75 18h1.5" />
-</svg>
-);
-const ChevronDownIcon: React.FC<{className?: string}> = ({className}) => (
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className={`w-3 h-3 ${className}`}>
-  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-</svg>
-);
-const SortIcon: React.FC<{className?: string}> = ({className}) => ( // Used for Desktop sort
- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${className}`}>
-  <path strokeLinecap="round" strokeLinejoin="round" d="M3 7.5 7.5 3m0 0L12 7.5M7.5 3v13.5m13.5 0L16.5 21m0 0L12 16.5m4.5 4.5V7.5" />
-</svg>
-);
-const StoreIcon: React.FC<{className?: string}> = ({className}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-5 h-5 ${className}`}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 21v-7.5A2.25 2.25 0 0 0 11.25 11.25H4.5A2.25 2.25 0 0 0 2.25 13.5V21M3 7.5h18M5.25 7.5h13.5m-13.5 0V3.75c0-.621.504-1.125 1.125-1.125h10.5c.621 0 1.125.504 1.125 1.125V7.5m-13.5 0h13.5M3.75 21h16.5M4.5 11.25h6.75a2.25 2.25 0 0 0 2.25-2.25V3.75M16.5 11.25h.008v.008H16.5V11.25Zm0 0h.008v.008H16.5V11.25Z" />
-  </svg>
-);
-const MapPinIcon: React.FC<{className?: string}> = ({className}) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`w-6 h-6 ${className}`}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-  </svg>
-);
-// Mobile Filter Icons
-const ListBulletIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-  </svg>
-);
-const AdjustmentsHorizontalIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-    <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 6h9.75M10.5 12h9.75M10.5 18h9.75M3.75 6h1.5M3.75 12h1.5M3.75 18h1.5" />
-</svg>
-);
-const TagIcon: React.FC<{ className?: string }> = ({ className }) => ( // For Price
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
-    </svg>
-);
-const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => ( // For Composition
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L1.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L21 5.25l-.813 2.846a4.5 4.5 0 0 0-3.09 3.09L14.25 12l2.846.813a4.5 4.5 0 0 0 3.09 3.09L21 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L14.25 12Z" />
-    </svg>
-);
-
+import { HiOutlineHeart, HiMiniStar, HiOutlineAdjustmentsHorizontal, HiOutlineChevronDown, HiOutlineTag, HiOutlineSparkles, HiOutlineUser, HiOutlineMapPin, HiOutlineArrowDownTray, HiOutlineArrowRightOnRectangle, HiOutlineListBullet } from 'react-icons/hi2';
+import { MdStore, MdFilterList, MdShoppingCart } from 'react-icons/md';
 
 const storesData: Store[] = [
     { id: 's_en', name: 'Цветочный Дворик (Енакиево)', city: City.ENAKIEVO, address: 'ул. Ленина, 52', operatingHours: "8:00 - 20:00", imageUrl: 'https://picsum.photos/seed/store_enakievo/600/400' },
     { id: 's_kir', name: 'Арт Флора (Кировское)', city: City.KIROVSKOE, address: 'пр. Мира, 15А', operatingHours: "9:00 - 19:00", imageUrl: 'https://picsum.photos/seed/store_kirovskoe/600/400' },
 ];
 
-const flowerProductsData: FlowerProduct[] = [
-  // Existing products with storeIds
-  { id: 'f1', name: 'Букет "Пионы 11 штук в крафте"', price: 4290, originalPrice: 5363, imageUrls: ['https://picsum.photos/seed/pionies_craft/600/400'], description: 'Роскошные пионы в стильной крафтовой упаковке.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['Любимой девушке', 'Маме'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f2', name: 'Букет "Воздушные Пионы"', price: 2990, originalPrice: 3738, imageUrls: ['https://picsum.photos/seed/air_pionies/600/400'], description: 'Нежные и ароматные пионы.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['На день рождения'], storeIds: ['s_en'] },
-  { id: 'f3', name: 'Пионы 11 штук', price: 4900, imageUrls: ['https://picsum.photos/seed/pionies_11/600/400'], description: 'Классический букет из 11 пионов.', category: 'Монобукеты', rating: 4.79, reviewsCount: 5100, flowerTypesIncluded: ['Пионы'], isPopular: true, storeIds: ['s_kir'] },
-  { id: 'f7', name: 'Гортензия с пионовидными розами', price: 3496, originalPrice: 4600, imageUrls: ['https://picsum.photos/seed/hydrangea_roses/600/400'], description: 'Элегантное сочетание гортензии и роз.', category: 'Авторские букеты', rating: 4.90, reviewsCount: 2500, flowerTypesIncluded: ['Гортензия', 'Розы'], deliveryTime: 60, occasionTags: ['Маме'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f8', name: 'Пионы 9 штук', price: 3900, imageUrls: ['https://picsum.photos/seed/pionies_9/600/400'], description: 'Компактный букет из 9 пионов.', category: 'Монобукеты', rating: 4.88, reviewsCount: 3200, flowerTypesIncluded: ['Пионы'], isReadyMade: true, storeIds: ['s_en'] },
-  { id: 'f9', name: 'Букет "Нежные летние альстромерии"', price: 2793, originalPrice: 3990, imageUrls: ['https://picsum.photos/seed/alstroemeria/600/400'], description: 'Яркие и стойкие альстромерии.', category: 'Монобукеты', rating: 4.81, reviewsCount: 2800, flowerTypesIncluded: ['Альстромерии'], deliveryTime: 90, storeIds: ['s_kir'] },
-  { id: 'f10', name: 'Букет из 5 эустом в крафте', price: 2999, originalPrice: 3588, imageUrls: ['https://picsum.photos/seed/eustoma_5/600/400'], description: 'Нежные эустомы в крафте.', category: 'Монобукеты', rating: 4.85, reviewsCount: 2200, flowerTypesIncluded: ['Эустома'], occasionTags: ['Любимой девушке'], storeIds: ['s_en'] },
-  { id: 'f11', name: 'Лавандовые сны', price: 3960, originalPrice: 4800, imageUrls: ['https://picsum.photos/seed/lavender_dreams/600/400'], description: 'Ароматный букет с лавандой.', category: 'Авторские букеты', rating: 4.83, reviewsCount: 4400, flowerTypesIncluded: ['Лаванда', 'Розы'], isPopular: true, storeIds: ['s_kir', 's_en'] },
-  { id: 'f12', name: 'Букет с пионовидными розами', price: 3467, originalPrice: 4280, imageUrls: ['https://picsum.photos/seed/peony_roses_mix/600/400'], description: 'Роскошные пионовидные розы.', category: 'Монобукеты', rating: 4.83, reviewsCount: 5000, flowerTypesIncluded: ['Розы пионовидные'], occasionTags: ['Маме', 'Любимой девушке'], storeIds: ['s_en'] },
-  { id: 'f13', name: 'Букет Лидия', price: 2490, originalPrice: 3113, imageUrls: ['https://picsum.photos/seed/lidia_bouquet/600/400'], description: 'Яркий и жизнерадостный букет.', category: 'Авторские букеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Герберы', 'Хризантемы'], isReadyMade: true, deliveryTime: 75, storeIds: ['s_kir'] },
-  { id: 'f14', name: 'Пионы Сара Бернар с эвкалиптом 11шт', price: 3480, originalPrice: 5800, imageUrls: ['https://picsum.photos/seed/sarah_bernardt/600/400'], description: 'Знаменитые пионы Сара Бернар.', category: 'Монобукеты', rating: 4.93, reviewsCount: 9470, flowerTypesIncluded: ['Пионы', 'Эвкалипт'], isPopular: true, occasionTags: ['Любимой девушке', 'На день рождения'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f15', name: 'Букет французские розы и ромашка', price: 2996, originalPrice: 4280, imageUrls: ['https://picsum.photos/seed/french_roses_chamomile/600/400'], description: 'Классическое сочетание роз и ромашек.', category: 'Авторские букеты', rating: 4.97, reviewsCount: 2000, flowerTypesIncluded: ['Розы', 'Ромашки'], deliveryTime: 90, storeIds: ['s_en'] },
-  
-  // New products to fill categories
-  { id: 'f16', name: 'Розы в элегантной коробке', price: 3800, imageUrls: ['https://picsum.photos/seed/roses_box/600/400'], description: 'Красные розы в стильной шляпной коробке.', category: 'Цветы в коробке', rating: 4.9, reviewsCount: 1500, flowerTypesIncluded: ['Розы'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f17', name: 'Весенняя корзина с тюльпанами', price: 3200, imageUrls: ['https://picsum.photos/seed/tulips_basket/600/400'], description: 'Яркие тюльпаны в плетеной корзине.', category: 'Цветы в корзине', rating: 4.8, reviewsCount: 980, flowerTypesIncluded: ['Тюльпаны'], storeIds: ['s_kir'] },
-  { id: 'f18', name: 'Роза красная поштучно', price: 250, imageUrls: ['https://picsum.photos/seed/rose_single/600/400'], description: 'Одна великолепная красная роза.', category: 'Цветы поштучно', storeIds: ['s_en'] },
-  { id: 'f19', name: 'Букет из лаванды и хлопка (сухоцветы)', price: 2800, imageUrls: ['https://picsum.photos/seed/lavender_cotton_dry/600/400'], description: 'Долговечный букет из сухоцветов.', category: 'Букеты из сухоцветов', rating: 4.7, reviewsCount: 750, flowerTypesIncluded: ['Лаванда', 'Хлопок'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f20', name: 'Подарочный набор "Сладкоежка"', price: 4500, imageUrls: ['https://picsum.photos/seed/giftset_sweet/600/400'], description: 'Букет роз и коробка конфет.', category: 'Подарочные наборы', flowerTypesIncluded: ['Розы'], storeIds: ['s_en'] },
-  { id: 'f21', name: 'Милый плюшевый мишка', price: 1500, imageUrls: ['https://picsum.photos/seed/teddy_bear/600/400'], description: 'Мягкий и очаровательный мишка.', category: 'Мягкие игрушки', storeIds: ['s_kir', 's_en'] },
-  { id: 'f22', name: 'Открытка "С Днем Рождения!"', price: 150, imageUrls: ['https://picsum.photos/seed/birthday_card/600/400'], description: 'Красивая поздравительная открытка.', category: 'Открытки', storeIds: ['s_en', 's_kir'] },
-  { id: 'f23', name: 'Фруктовый букет "Витаминный взрыв"', price: 3900, imageUrls: ['https://picsum.photos/seed/fruit_bouquet/600/400'], description: 'Яркий и полезный букет из свежих фруктов.', category: 'Съедобные букеты', rating: 4.9, reviewsCount: 1200, storeIds: ['s_en'] },
-  { id: 'f24', name: 'Воздушные шары "Ассорти" (10 шт)', price: 1200, imageUrls: ['https://picsum.photos/seed/balloons_assorted/600/400'], description: 'Набор из 10 разноцветных гелиевых шаров.', category: 'Воздушные шары', storeIds: ['s_kir'] },
-  { id: 'f25', name: 'Комнатное растение "Фикус Бенджамина"', price: 2200, imageUrls: ['https://picsum.photos/seed/ficus_plant/600/400'], description: 'Вечнозеленое растение для уюта в доме.', category: 'Комнатные растения', storeIds: ['s_en', 's_kir'] },
-  { id: 'f26', name: 'Композиция "Орхидея в кашпо"', price: 3500, imageUrls: ['https://picsum.photos/seed/orchid_pot/600/400'], description: 'Изящная орхидея в керамическом кашпо.', category: 'Комнатные растения', isPopular: true, storeIds: ['s_en'] },
-  { id: 'f27', name: 'Свадебный букет "Нежность"', price: 5500, imageUrls: ['https://picsum.photos/seed/wedding_tenderness/600/400'], description: 'Классический свадебный букет из белых роз и эустом.', category: 'Авторские букеты', occasionTags: ['Свадьба'], flowerTypesIncluded: ['Розы', 'Эустома'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f28', name: 'Цветы в коробке "Радуга"', price: 4200, imageUrls: ['https://picsum.photos/seed/box_rainbow/600/400'], description: 'Яркие разноцветные герберы в шляпной коробке.', category: 'Цветы в коробке', flowerTypesIncluded: ['Герберы'], storeIds: ['s_kir'] },
+export const flowerProductsData: FlowerProduct[] = [
+  { id: 'f1', name: 'Букет "Пионы 11 штук в крафте"', price: 4290, originalPrice: 5363, imageUrls: ['/images/flowers/flowers_cards/11 Peonies in Craft Paper.png'], description: 'Роскошные пионы в стильной крафтовой упаковке.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['Любимой девушке', 'Маме'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f2', name: 'Букет "Воздушные Пионы"', price: 2990, originalPrice: 3738, imageUrls: ['/images/flowers/flowers_cards/Airy Peonies.png'], description: 'Нежные и ароматные пионы.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['На день рождения'], storeIds: ['s_en'] },
+  { id: 'f3', name: 'Пионы 11 штук', price: 4900, imageUrls: ['/images/flowers/flowers_cards/11 Peonies.png'], description: 'Классический букет из 11 пионов.', category: 'Монобукеты', rating: 4.79, reviewsCount: 5100, flowerTypesIncluded: ['Пионы'], isPopular: true, storeIds: ['s_kir'] },
+  { id: 'f7', name: 'Гортензия с пионовидными розами', price: 3496, originalPrice: 4600, imageUrls: ['/images/flowers/flowers_cards/Hydrangea with Peony Roses.png'], description: 'Элегантное сочетание гортензии и роз.', category: 'Авторские букеты', rating: 4.90, reviewsCount: 2500, flowerTypesIncluded: ['Гортензия', 'Розы'], deliveryTime: 60, occasionTags: ['Маме'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f8', name: 'Пионы 9 штук', price: 3900, imageUrls: ['/images/flowers/flowers_cards/9 Peonies.png'], description: 'Компактный букет из 9 пионов.', category: 'Монобукеты', rating: 4.88, reviewsCount: 3200, flowerTypesIncluded: ['Пионы'], isReadyMade: true, storeIds: ['s_en'] },
+  { id: 'f9', name: 'Букет "Нежные летние альстромерии"', price: 2793, originalPrice: 3990, imageUrls: ['/images/flowers/flowers_cards/Summer Alstroemeria Bouquet.png'], description: 'Яркие и стойкие альстромерии.', category: 'Монобукеты', rating: 4.81, reviewsCount: 2800, flowerTypesIncluded: ['Альстромерии'], deliveryTime: 90, storeIds: ['s_kir'] },
+  { id: 'f10', name: 'Букет из 5 эустом в крафте', price: 2999, originalPrice: 3588, imageUrls: ['/images/flowers/flowers_cards/Bouquet of 5 Eustomas in Craft Paper.png'], description: 'Нежные эустомы в крафте.', category: 'Монобукеты', rating: 4.85, reviewsCount: 2200, flowerTypesIncluded: ['Эустома'], occasionTags: ['Любимой девушке'], storeIds: ['s_en'] },
+  { id: 'f11', name: 'Лавандовые сны', price: 3960, originalPrice: 4800, imageUrls: ['/images/flowers/flowers_cards/Lavender Dreams.png'], description: 'Ароматный букет с лавандой.', category: 'Авторские букеты', rating: 4.83, reviewsCount: 4400, flowerTypesIncluded: ['Лаванда', 'Розы'], isPopular: true, storeIds: ['s_kir', 's_en'] },
+  { id: 'f12', name: 'Букет с пионовидными розами', price: 3467, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/Bouquet with Peony Roses.png'], description: 'Роскошные пионовидные розы.', category: 'Монобукеты', rating: 4.83, reviewsCount: 5000, flowerTypesIncluded: ['Розы пионовидные'], occasionTags: ['Маме', 'Любимой девушке'], storeIds: ['s_en'] },
+  { id: 'f13', name: 'Букет Лидия', price: 2490, originalPrice: 3113, imageUrls: ['/images/flowers/flowers_cards/Lydia Bouquet.png'], description: 'Яркий и жизнерадостный букет.', category: 'Авторские букеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Герберы', 'Хризантемы'], isReadyMade: true, deliveryTime: 75, storeIds: ['s_kir'] },
+  { id: 'f14', name: 'Пионы Сара Бернар с эвкалиптом 11шт', price: 3480, originalPrice: 5800, imageUrls: ['/images/flowers/flowers_cards/Sarah Bernhardt Peonies with Eucalyptus (11 pcs.png'], description: 'Знаменитые пионы Сара Бернар.', category: 'Монобукеты', rating: 4.93, reviewsCount: 9470, flowerTypesIncluded: ['Пионы', 'Эвкалипт'], isPopular: true, occasionTags: ['Любимой девушке', 'На день рождения'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f15', name: 'Букет французские розы и ромашка', price: 2996, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/French Roses and Chamomile Bouquet.png'], description: 'Классическое сочетание роз и ромашек.', category: 'Авторские букеты', rating: 4.97, reviewsCount: 2000, flowerTypesIncluded: ['Розы', 'Ромашки'], deliveryTime: 90, storeIds: ['s_en'] },
+  { id: 'f16', name: 'Розы в элегантной коробке', price: 3800, imageUrls: ['/images/flowers/flowers_cards/Roses in an Elegant Box.png'], description: 'Красные розы в стильной шляпной коробке.', category: 'Цветы в коробке', rating: 4.9, reviewsCount: 1500, flowerTypesIncluded: ['Розы'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f17', name: 'Весенняя корзина с тюльпанами', price: 3200, imageUrls: ['/images/flowers/flowers_cards/Spring Basket with Tulips.png'], description: 'Яркие тюльпаны в плетеной корзине.', category: 'Цветы в корзине', rating: 4.8, reviewsCount: 980, flowerTypesIncluded: ['Тюльпаны'], storeIds: ['s_kir'] },
+  { id: 'f18', name: 'Роза красная поштучно', price: 250, imageUrls: ['/images/flowers/flowers_cards/Single Red Rose.png'], description: 'Одна великолепная красная роза.', category: 'Цветы поштучно', storeIds: ['s_en'] },
+  { id: 'f19', name: 'Букет из лаванды и хлопка (сухоцветы)', price: 2800, imageUrls: ['/images/flowers/flowers_cards/Bouquet of Lavender and Cotton (Dried Flowers).png'], description: 'Долговечный букет из сухоцветов.', category: 'Букеты из сухоцветов', rating: 4.7, reviewsCount: 750, flowerTypesIncluded: ['Лаванда', 'Хлопок'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f20', name: 'Подарочный набор "Сладкоежка"', price: 4500, imageUrls: ['/images/flowers/flowers_cards/Gift Set Sweet Tooth.png'], description: 'Букет роз и коробка конфет.', category: 'Подарочные наборы', flowerTypesIncluded: ['Розы'], storeIds: ['s_en'] },
+  { id: 'f21', name: 'Милый плюшевый мишка', price: 1500, imageUrls: ['/images/flowers/flowers_cards/Cute Plush Bear.png'], description: 'Мягкий и очаровательный мишка.', category: 'Мягкие игрушки', storeIds: ['s_kir', 's_en'] },
+  { id: 'f22', name: 'Открытка "С Днем Рождения!"', price: 150, imageUrls: ['/images/flowers/flowers_cards/Greeting Card Happy Birthday!.png'], description: 'Красивая поздравительная открытка.', category: 'Открытки', storeIds: ['s_en', 's_kir'] },
+  { id: 'f23', name: 'Фруктовый букет "Витаминный взрыв"', price: 3900, imageUrls: ['/images/flowers/flowers_cards/Fruit Bouquet Vitamin Blast.png'], description: 'Яркий и полезный букет из свежих фруктов.', category: 'Съедобные букеты', rating: 4.9, reviewsCount: 1200, storeIds: ['s_en'] },
+  { id: 'f24', name: 'Воздушные шары "Ассорти" (10 шт)', price: 1200, imageUrls: ['/images/flowers/flowers_cards/Balloons Assorted (10 pcs).png'], description: 'Набор из 10 разноцветных гелиевых шаров.', category: 'Воздушные шары', storeIds: ['s_kir'] },
+  { id: 'f25', name: 'Комнатное растение "Фикус Бенджамина"', price: 2200, imageUrls: ['/images/flowers/flowers_cards/Houseplant Ficus Benjamina.png'], description: 'Вечнозеленое растение для уюта в доме.', category: 'Комнатные растения', storeIds: ['s_en', 's_kir'] },
+  { id: 'f26', name: 'Композиция "Орхидея в кашпо"', price: 3500, imageUrls: ['/images/flowers/flowers_cards/Arrangement Orchid in a Pot.png'], description: 'Изящная орхидея в керамическом кашпо.', category: 'Комнатные растения', isPopular: true, storeIds: ['s_en'] },
+  { id: 'f27', name: 'Свадебный букет "Нежность"', price: 5500, imageUrls: ['/images/flowers/flowers_cards/Wedding Bouquet Tenderness.png'], description: 'Классический свадебный букет из белых роз и эустом.', category: 'Авторские букеты', occasionTags: ['Свадьба'], flowerTypesIncluded: ['Розы', 'Эустома'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f28', name: 'Цветы в коробке "Радуга"', price: 4200, imageUrls: ['/images/flowers/flowers_cards/Flowers in a Box Rainbow.png'], description: 'Яркие разноцветные герберы в шляпной коробке.', category: 'Цветы в коробке', flowerTypesIncluded: ['Герберы'], storeIds: ['s_kir'] },
 ];
 
 
@@ -140,19 +76,18 @@ const sortOptions = [
 ];
 
 const subCategories = [
-    { name: "Монобукеты", icon: "https://picsum.photos/seed/cat_mono/80/80", filterValue: "Монобукеты" },
-    { name: "Авторские", icon: "https://picsum.photos/seed/cat_author/80/80", filterValue: "Авторские букеты" },
-    { name: "В коробке", icon: "https://picsum.photos/seed/cat_box/80/80", filterValue: "Цветы в коробке" },
-    { name: "В корзине", icon: "https://picsum.photos/seed/cat_basket/80/80", filterValue: "Цветы в корзине" },
-    { name: "Поштучно", icon: "https://picsum.photos/seed/cat_single_flower/80/80", filterValue: "Цветы поштучно" },
-    { name: "Сухоцветы", icon: "https://picsum.photos/seed/cat_dry/80/80", filterValue: "Букеты из сухоцветов" },
-    { name: "Наборы", icon: "https://picsum.photos/seed/cat_giftset/80/80", filterValue: "Подарочные наборы" },
-    // These were in 'otherSubCategories', merging for mobile scrollable list
-    { name: "Игрушки", icon: "https://picsum.photos/seed/cat_toys_sidebar/80/80", filterValue: "Мягкие игрушки" },
-    { name: "Открытки", icon: "https://picsum.photos/seed/cat_cards_sidebar/80/80", filterValue: "Открытки" },
-    { name: "Съедобные", icon: "https://picsum.photos/seed/cat_edible/80/80", filterValue: "Съедобные букеты" },
-    { name: "Шары", icon: "https://picsum.photos/seed/cat_balloons_sidebar/80/80", filterValue: "Воздушные шары" },
-    { name: "Растения", icon: "https://picsum.photos/seed/cat_plants_sidebar/80/80", filterValue: "Комнатные растения" },
+    { name: "Монобукеты", icon: "/images/flowers/categories/Monobouquets.png", filterValue: "Монобукеты" },
+    { name: "Авторские", icon: "/images/flowers/categories/Designer_Bouquets.png", filterValue: "Авторские букеты" },
+    { name: "В коробке", icon: "/images/flowers/categories/Flowers_in_a_Box.png", filterValue: "Цветы в коробке" },
+    { name: "В корзине", icon: "/images/flowers/categories/Flowers_in_a_Basket.png", filterValue: "Цветы в корзине" },
+    { name: "Поштучно", icon: "/images/flowers/categories/Single_Flowers.png", filterValue: "Цветы поштучно" },
+    { name: "Сухоцветы", icon: "/images/flowers/categories/Dried_Flower_Bouquets.png", filterValue: "Букеты из сухоцветов" },
+    { name: "Наборы", icon: "/images/flowers/categories/Gift_Sets.png", filterValue: "Подарочные наборы" },
+    { name: "Игрушки", icon: "/images/flowers/categories/Soft_Toys.png", filterValue: "Мягкие игрушки" },
+    { name: "Открытки", icon: "/images/flowers/categories/Greeting_Cards.png", filterValue: "Открытки" },
+    { name: "Съедобные", icon: "/images/flowers/categories/Edible_Bouquets.png", filterValue: "Съедобные букеты" },
+    { name: "Шары", icon: "/images/flowers/categories/Balloons.png", filterValue: "Воздушные шары" },
+    { name: "Растения", icon: "/images/flowers/categories/Houseplants.png", filterValue: "Комнатные растения" },
 ];
 // Desktop specific category lists
 const desktopSubCategories = subCategories.slice(0,7);
@@ -191,7 +126,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, addToCart, setNotifi
             aria-label="Добавить в избранное"
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); /* Implement like action */ }}
           >
-            <HeartIcon className="w-5 h-5"/>
+            <HiOutlineHeart className="w-5 h-5"/>
           </button>
         </div>
       </Link>
@@ -203,7 +138,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, addToCart, setNotifi
         <div className="flex items-center text-[10px] md:text-xs text-content-secondary mt-auto mb-1 md:mb-1.5">
             {product.rating && (
               <>
-                <StarIcon className="text-amber-400 mr-0.5 md:mr-1 w-3 h-3 md:w-4 md:h-4"/> 
+                <HiMiniStar className="text-amber-400 mr-0.5 md:mr-1 w-3 h-3 md:w-4 md:h-4"/> 
                 <span className="font-medium">{product.rating.toFixed(1)}</span>
                 {reviewsText && <span className="mx-1">• {reviewsText}</span>}
               </>
@@ -490,7 +425,7 @@ export const Flowers: React.FC = () => {
           {staticFiltersData.map(sFilter => (
              <label key={sFilter.filterKey} className="flex items-center space-x-2 p-2.5 rounded-lg hover:bg-ui-background cursor-pointer">
                 <input type="checkbox" checked={!!activeStaticFilters[sFilter.filterKey]} onChange={() => handleStaticFilterToggle(sFilter.filterKey)} className="h-4 w-4 text-brand-DEFAULT rounded border-gray-300 focus:ring-brand-DEFAULT"/>
-                <span className="text-sm text-content-primary">{sFilter.label.includes("Рейтинг") && <StarIcon className="inline w-4 h-4 mr-1 text-amber-400"/>}{sFilter.label}</span>
+                <span className="text-sm text-content-primary">{sFilter.label.includes("Рейтинг") && <HiMiniStar className="inline w-4 h-4 mr-1 text-amber-400"/>}{sFilter.label}</span>
              </label>
           ))}
         </div>
@@ -533,19 +468,19 @@ export const Flowers: React.FC = () => {
       <div ref={mobileFiltersRef} className="md:hidden space-y-3 sticky top-[60px] md:top-[68px] bg-ui-background py-2 z-20 -mx-4 px-4 shadow-sm">
         <div className="flex items-center justify-between gap-2">
             <button onClick={() => openMobileFilterModal('sort')} className="flex-1 flex items-center justify-center space-x-1.5 py-2 px-2 text-xs font-medium text-content-secondary hover:text-brand-DEFAULT bg-white rounded-lg border border-ui-border shadow-sm">
-                <AdjustmentsHorizontalIcon className="w-4 h-4" />
+                <HiOutlineAdjustmentsHorizontal className="w-4 h-4" />
                 <span>Фильтры</span>
-                <ChevronDownIcon className="w-3 h-3"/>
+                <HiOutlineChevronDown className="w-3 h-3"/>
             </button>
             <button onClick={() => openMobileFilterModal('price')} className="flex-1 flex items-center justify-center space-x-1.5 py-2 px-2 text-xs font-medium text-content-secondary hover:text-brand-DEFAULT bg-white rounded-lg border border-ui-border shadow-sm">
-                <TagIcon className="w-4 h-4" />
+                <HiOutlineTag className="w-4 h-4" />
                 <span>Цена</span>
-                <ChevronDownIcon className="w-3 h-3"/>
+                <HiOutlineChevronDown className="w-3 h-3"/>
             </button>
             <button onClick={() => openMobileFilterModal('composition')} className="flex-1 flex items-center justify-center space-x-1.5 py-2 px-2 text-xs font-medium text-content-secondary hover:text-brand-DEFAULT bg-white rounded-lg border border-ui-border shadow-sm">
-                <SparklesIcon className="w-4 h-4" />
+                <HiOutlineSparkles className="w-4 h-4" />
                 <span>Состав</span>
-                <ChevronDownIcon className="w-3 h-3"/>
+                <HiOutlineChevronDown className="w-3 h-3"/>
             </button>
         </div>
         <div className="flex overflow-x-auto gap-3 py-2 scrollbar-hide">
@@ -557,7 +492,7 @@ export const Flowers: React.FC = () => {
                             ${currentSubCategory === cat.filterValue ? 'border-b-2 border-brand-DEFAULT' : 'hover:opacity-80'}`}
                 aria-pressed={currentSubCategory === cat.filterValue}
             >
-                <img src={cat.icon} alt={cat.name} className={`w-12 h-12 rounded-full object-cover border-2 transition-all duration-200 ${currentSubCategory === cat.filterValue ? 'border-brand-DEFAULT shadow-md' : 'border-ui-border group-hover:border-brand-light'}`}/>
+                <img src={cat.icon} alt={cat.name} className={`w-16 h-16 rounded-full object-cover border-2 transition-all duration-200 ${currentSubCategory === cat.filterValue ? 'border-brand-DEFAULT shadow-md' : 'border-ui-border group-hover:border-brand-light'}`}/>
                 <span className={`text-[10px] mt-1.5 font-medium leading-tight text-center ${currentSubCategory === cat.filterValue ? 'text-brand-DEFAULT' : 'text-content-primary group-hover:text-brand-DEFAULT'}`}>{cat.name}</span>
             </button>
           ))}
@@ -601,7 +536,7 @@ export const Flowers: React.FC = () => {
                         <option value="" disabled hidden>{filter.label}</option>
                         {filter.options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
                     </select>
-                    <ChevronDownIcon className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-content-subtle"/>
+                    <HiOutlineChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-content-subtle"/>
                 </div>
             ))}
             {staticFiltersData.map(sFilter => (
@@ -612,7 +547,7 @@ export const Flowers: React.FC = () => {
                     size="sm"
                     className="!px-3 !py-2 text-sm"
                  >
-                    {sFilter.label.includes("Рейтинг") && <StarIcon className="mr-1.5 text-amber-400"/>}
+                    {sFilter.label.includes("Рейтинг") && <HiMiniStar className="mr-1.5 text-amber-400"/>}
                     {sFilter.label}
                  </Button>
             ))}
@@ -624,7 +559,7 @@ export const Flowers: React.FC = () => {
                 >
                     {sortOptions.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
                 </select>
-                <SortIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-content-subtle"/>
+                <HiOutlineArrowDownTray className="absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none text-content-subtle"/>
             </div>
         </div>
       </section>
@@ -668,7 +603,7 @@ export const Flowers: React.FC = () => {
                                 className={`w-full flex items-center p-2.5 rounded-lg text-sm transition-all duration-200 ease-in-out group
                                             ${currentSubCategory === cat.filterValue ? 'bg-brand-light text-brand-dark shadow-sm' : 'hover:bg-ui-background hover:shadow-sm'}`}
                             >
-                                <img src={cat.icon} alt="" className="w-6 h-6 rounded-md mr-3 object-cover"/>
+                                <img src={cat.icon} alt="" className="w-10 h-10 rounded-md mr-3 object-cover"/>
                                 <span className="font-medium group-hover:text-brand-DEFAULT">{cat.name}</span>
                             </button>
                         ))}
@@ -680,7 +615,7 @@ export const Flowers: React.FC = () => {
                                 className={`w-full flex items-center p-2.5 rounded-lg text-sm transition-all duration-200 ease-in-out group
                                             ${currentSubCategory === cat.filterValue ? 'bg-brand-light text-brand-dark shadow-sm' : 'hover:bg-ui-background hover:shadow-sm'}`}
                             >
-                                <img src={cat.icon} alt="" className="w-6 h-6 rounded-md mr-3 object-cover"/>
+                                <img src={cat.icon} alt="" className="w-10 h-10 rounded-md mr-3 object-cover"/>
                                 <span className="font-medium group-hover:text-brand-DEFAULT">{cat.name}</span>
                             </button>
                         ))}
@@ -718,7 +653,7 @@ export const Flowers: React.FC = () => {
           )}
           {activeTab === 'all' && filteredProducts.length === 0 && (
               <div className="flex flex-col items-center justify-center h-64 bg-ui-surface rounded-2xl shadow-card p-8 text-center">
-                  <FilterIcon className="w-16 h-16 text-content-subtle mb-4"/>
+                  <MdFilterList className="w-16 h-16 text-content-subtle mb-4"/>
                   <p className="text-xl font-semibold text-content-primary">Товары не найдены</p>
                   <p className="text-content-secondary mt-1">Попробуйте изменить критерии фильтрации {selectedStoreId ? "или выберите другой магазин" : ""}.</p>
                    {selectedStoreId && 
@@ -730,7 +665,7 @@ export const Flowers: React.FC = () => {
           )}
           {activeTab === 'shops' && !selectedStoreId && ( // Desktop "Shops" tab view
             <div ref={mapPlaceholderRef} className="flex flex-col items-center justify-center h-96 bg-ui-surface rounded-2xl shadow-card p-8 text-center">
-                <MapPinIcon className="w-20 h-20 text-brand-DEFAULT mb-6 opacity-70" />
+                <HiOutlineMapPin className="w-20 h-20 text-brand-DEFAULT mb-6 opacity-70" />
                 <h3 className="text-2xl font-semibold text-content-primary mb-2">Карта магазинов</h3>
                 <p className="text-content-secondary max-w-xs mx-auto">
                     Скоро здесь появится интерактивная карта с расположением наших цветочных магазинов. Вы сможете легко найти ближайший к вам!
