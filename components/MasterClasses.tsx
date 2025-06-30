@@ -27,14 +27,14 @@ const SparklesIcon: React.FC<{ className?: string }> = ({ className }) => (
 
 // --- DATA ---
 const masterClassesData: MasterClassEvent[] = [
-  { id: 'mc1', title: 'Основы студийной съемки', date: '2024-07-15', time: '18:00', description: 'Изучите работу со светом, композицию и взаимодействие с моделью.', price: 3000, image: 'https://storage.googleapis.com/proudcity_images/yuzulab/mc_studio_photography.jpg', location: 'Лофт Студия "Атмосфера"'},
-  { id: 'mc2', title: 'Флористика для начинающих', date: '2024-07-22', time: '17:00', description: 'Создайте свой первый букет под руководством опытного флориста.', price: 2500, image: 'https://storage.googleapis.com/proudcity_images/yuzulab/mc_floristics.jpg', location: 'Арт-пространство "Цветочный Рай"'},
-  { id: 'mc3', title: 'Секреты создания фотокниг', date: '2024-08-05', time: '19:00', description: 'Научитесь верстать красивые и запоминающиеся фотокниги.', price: 2000, image: 'https://storage.googleapis.com/proudcity_images/yuzulab/mc_photobooks.jpg', location: 'Конференц-зал "Идея"'},
+  { id: 'mc1', title: 'Основы студийной съемки', date: '2024-07-15', time: '18:00', description: 'Изучите работу со светом, композицию и взаимодействие с моделью.', price: 3000, image: '/images/masterclasses/mc_studio_card.png', location: 'Лофт Студия "Атмосфера"'},
+  { id: 'mc2', title: 'Флористика для начинающих', date: '2024-07-22', time: '17:00', description: 'Создайте свой первый букет под руководством опытного флориста.', price: 2500, image: '/images/masterclasses/mc_floristry_card.png', location: 'Арт-пространство "Цветочный Рай"'},
+  { id: 'mc3', title: 'Секреты создания фотокниг', date: '2024-08-05', time: '19:00', description: 'Научитесь верстать красивые и запоминающиеся фотокниги.', price: 2000, image: '/images/masterclasses/mc_photobook_card.png', location: 'Конференц-зал "Идея"'},
 ];
 
 const hallRentalData: HallRentalInfo[] = [
-    { id: 'h1', name: 'Зал "Вдохновение"', capacity: 50, pricePerHour: 2000, amenities: ['Проектор', 'Маркерная доска', 'Wi-Fi', 'Кофе-зона'], imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/hall_inspiration.jpg'], description: "Просторный и светлый зал, идеально подходит для лекций, семинаров и тренингов."},
-    { id: 'h2', name: 'Аудитория "Прогресс"', capacity: 20, pricePerHour: 1200, amenities: ['Плазменная панель 55"', 'Wi-Fi', 'Кондиционер'], imageUrls: ['https://storage.googleapis.com/proudcity_images/yuzulab/hall_progress.jpg'], description: "Уютная аудитория для небольших групп, мастер-классов и совещаний."},
+    { id: 'h1', name: 'Зал "Вдохновение"', capacity: 50, pricePerHour: 2000, amenities: ['Проектор', 'Маркерная доска', 'Wi-Fi', 'Кофе-зона'], imageUrls: ['/images/masterclasses/hall1_hero.png'], description: "Просторный и светлый зал, идеально подходит для лекций, семинаров и тренингов."},
+    { id: 'h2', name: 'Аудитория "Прогресс"', capacity: 20, pricePerHour: 1200, amenities: ['Плазменная панель 55"', 'Wi-Fi', 'Кондиционер'], imageUrls: ['/images/masterclasses/hall2_hero.png'], description: "Уютная аудитория для небольших групп, мастер-классов и совещаний."},
 ];
 
 const amenityToIconMap: { [key: string]: React.FC<{ className?: string }> } = {

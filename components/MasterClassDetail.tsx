@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import type { MasterClassEvent } from '../types';
@@ -18,12 +17,12 @@ const FAKE_MASTERCLASS_DATA_SOURCE: MasterClassEvent[] = [
     description: 'Изучите работу со светом, композицию и взаимодействие с моделью.', 
     detailedDescription: 'Этот интенсивный мастер-класс предназначен для фотографов, желающих освоить основы работы в студии. Мы подробно разберем различные схемы освещения (рисующий, заполняющий, контровой свет), научимся использовать софтбоксы, рефлекторы и другие насадки. Практическая часть включает съемку модели с постановкой задач и анализом результатов. Вы узнаете, как создавать объемные и выразительные портреты.',
     price: 3000, 
-    image: 'https://picsum.photos/seed/mc1_page/500/350', 
-    imageUrls: ['https://picsum.photos/seed/mc1_hero/1000/600', 'https://picsum.photos/seed/mc1_gallery1/600/400', 'https://picsum.photos/seed/mc1_gallery2/600/400', 'https://picsum.photos/seed/mc1_gallery3/600/400'],
+    image: '/images/masterclasses/mc_studio_card.png', 
+    imageUrls: ['/images/masterclasses/mc1_hero.png', '/images/masterclasses/mc1_gallery1.png', '/images/masterclasses/mc1_gallery2.png'],
     location: 'Лофт Студия "Атмосфера", г. Енакиево',
     instructorName: 'Алексей Светов',
     instructorBio: 'Профессиональный фотограф с 10-летним опытом в коммерческой и портретной съемке. Преподаватель фотошколы "Объектив". Работал с известными брендами и журналами. Его стиль отличается глубоким пониманием света и психологии модели.',
-    instructorImage: 'https://picsum.photos/seed/instructor_alex/200/200',
+    instructorImage: '/images/masterclasses/instructor_alex.png',
     program: [
       { timeSlot: '18:00 - 18:30', activity: 'Введение: Типы студийного света и оборудование' },
       { timeSlot: '18:30 - 19:30', activity: 'Теория: Основные световые схемы', description: 'Разбор классических схем: Рембрандт, бабочка, боковой свет, высокий и низкий ключ.' },
@@ -40,12 +39,12 @@ const FAKE_MASTERCLASS_DATA_SOURCE: MasterClassEvent[] = [
     description: 'Создайте свой первый букет под руководством опытного флориста.', 
     detailedDescription: 'Мечтаете научиться создавать красивые букеты своими руками? Наш мастер-класс для начинающих флористов – идеальный старт! Вы узнаете о базовых техниках сборки букетов (спиральная, параллельная), правилах сочетания цветов и фактур, а также секретах продления жизни срезанных цветов. Каждый участник создаст свой собственный уникальный букет из сезонных цветов и заберет его с собой. Все материалы и инструменты предоставляются.',
     price: 2500, 
-    image: 'https://picsum.photos/seed/mc2_page/500/350', 
-    imageUrls: ['https://picsum.photos/seed/mc2_hero/1000/600', 'https://picsum.photos/seed/mc2_gallery1/600/400'],
+    image: '/images/masterclasses/mc_floristry_card.png', 
+    imageUrls: ['/images/masterclasses/mc2_hero.png', '/images/masterclasses/mc2_gallery1.png'],
     location: 'Арт-пространство "Цветочный Рай", г. Кировское',
     instructorName: 'Елена Цветкова',
     instructorBio: 'Флорист-дизайнер с международным опытом и более 15 лет практики. Владелица студии флористики "Bloom". Участница и призер многочисленных флористических конкурсов.',
-    instructorImage: 'https://picsum.photos/seed/instructor_elena/200/200',
+    instructorImage: '/images/masterclasses/instructor_elena.png',
     program: [
       { timeSlot: '17:00 - 17:30', activity: 'Знакомство с инструментами и материалами. Виды цветов.' },
       { timeSlot: '17:30 - 18:00', activity: 'Основы колористики и композиции в букете' },
@@ -61,12 +60,12 @@ const FAKE_MASTERCLASS_DATA_SOURCE: MasterClassEvent[] = [
     description: 'Научитесь верстать красивые и запоминающиеся фотокниги.', 
     detailedDescription: 'Фотокнига – это современный способ сохранить ваши воспоминания. На мастер-классе вы узнаете о принципах дизайна и верстки фотокниг, выборе программного обеспечения (обзор популярных редакторов), подготовке фотографий к печати (цветокоррекция, ретушь) и работе с типографией. Мы разберем типичные ошибки и поделимся лайфхаками для создания профессионально выглядящих фотокниг, которые будут радовать вас долгие годы.',
     price: 2000, 
-    image: 'https://picsum.photos/seed/mc3_page/500/350', 
-    imageUrls: ['https://picsum.photos/seed/mc3_hero/1000/600', 'https://picsum.photos/seed/mc3_gallery1/600/400', 'https://picsum.photos/seed/mc3_gallery2/600/400'],
+    image: '/images/masterclasses/mc_photobook_card.png', 
+    imageUrls: ['/images/masterclasses/mc3_hero.png', '/images/masterclasses/mc3_gallery1.png', '/images/masterclasses/mc3_gallery2.png'],
     location: 'Конференц-зал "Идея", г. Шахтерск',
     instructorName: 'Иван Версткин',
     instructorBio: 'Графический дизайнер, специалист по допечатной подготовке с 8-летним стажем. Автор популярных онлайн-курсов по Adobe InDesign и Photoshop. Помог сотням людей создать свои первые фотокниги.',
-    instructorImage: 'https://picsum.photos/seed/instructor_ivan/200/200',
+    instructorImage: '/images/masterclasses/instructor_ivan.png',
     program: [
       { timeSlot: '19:00 - 19:20', activity: 'Обзор форматов, материалов и типов фотокниг' },
       { timeSlot: '19:20 - 20:00', activity: 'Принципы верстки: Сетка, композиция, типографика, работа с цветом' },
