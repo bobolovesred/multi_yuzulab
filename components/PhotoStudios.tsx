@@ -216,7 +216,7 @@ export const PhotoStudios: React.FC = () => {
       });
     }
   }, [displayedStudios, isHiding]);
-
+  
   const cityOptions = [
     { value: '', label: 'Все города' },
     { value: City.ENAKIEVO, label: City.ENAKIEVO },
