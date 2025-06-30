@@ -3,6 +3,7 @@ import type { PhotoBookFormat } from '../types';
 import { Button } from './common/Button';
 import { InputField } from './common/InputField';
 import { gsap } from 'gsap';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 // Swiper.js imports
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -15,7 +16,7 @@ const formatsData: PhotoBookFormat[] = [
     name: 'Классик 20x20 см', 
     price: 2500, 
     description: 'Идеально для семейных архивов и инстаграм-подборок.',
-    imageUrl: 'https://storage.googleapis.com/proudcity_images/yuzulab/photobook_classic_sq.jpg',
+    imageUrl: '/images/photobook/Classic 20x20.png',
     features: ['Твердая фотообложка', '20-40 страниц', 'Матовая бумага 170г/м²'],
     detailedFeatures: ['Высококачественная печать', 'Лайфлет-разворот (без разрыва посередине)', 'Индивидуальный дизайн обложки', 'Возможность добавления текста'],
     bestSuitedFor: ['Семейный альбом', 'Instagram-подборка', 'Подарок'],
@@ -30,7 +31,7 @@ const formatsData: PhotoBookFormat[] = [
     name: 'Премиум 30x30 см', 
     price: 4500, 
     description: 'Роскошный вариант для свадеб и особых событий.',
-    imageUrl: 'https://storage.googleapis.com/proudcity_images/yuzulab/photobook_premium_sq.jpg',
+    imageUrl: '/images/photobook/Premium 30x30.png',
     features: ['Твердая обложка с тиснением', '30-80 страниц', 'Шелковая бумага 250г/м²'],
     detailedFeatures: ['Элегантное тиснение на выбор (золото, серебро)', 'Панорамный разворот на 180°', 'Усиленный книжный блок', 'Плотные страницы с шелковистой текстурой'],
     bestSuitedFor: ['Свадьба', 'Юбилей', 'Портфолио'],
@@ -44,7 +45,7 @@ const formatsData: PhotoBookFormat[] = [
     name: 'Лайт 15x20 см (альбом)', 
     price: 1800, 
     description: 'Компактный и доступный, отлично для подарков.',
-    imageUrl: 'https://storage.googleapis.com/proudcity_images/yuzulab/photobook_lite_rect.jpg',
+    imageUrl: '/images/photobook/Lite 15x20.png',
     features: ['Мягкая фотообложка', '16-32 страницы', 'Глянцевая бумага 150г/м²'],
     detailedFeatures: ['Гибкая, но прочная обложка', 'Яркая печать на глянцевой бумаге', 'Легкий и удобный для переноски', 'Отличный вариант для детских фото'],
     bestSuitedFor: ['Подарок', 'Путешествие', 'Детский альбом'],
@@ -60,7 +61,7 @@ const formatsData: PhotoBookFormat[] = [
     name: 'Инстабук 15x15 см', 
     price: 1500, 
     description: 'Соберите лучшие моменты из соцсетей.',
-    imageUrl: 'https://storage.googleapis.com/proudcity_images/yuzulab/photobook_insta_sq.jpg',
+    imageUrl: '/images/photobook/Instabook 15x15.png',
     features: ['Твердая обложка', '24 страницы', 'Плотная матовая бумага'],
     detailedFeatures: ['Квадратный формат, идеальный для Instagram фото', 'Автоматическое или ручное размещение фото', 'Современный минималистичный дизайн'],
     bestSuitedFor: ['Instagram', 'Повседневные моменты', 'Мини-подарок'],
@@ -186,6 +187,29 @@ export const PhotoBooks: React.FC = () => {
       if (prevSlide) {
           animateSlideContent(prevSlide as HTMLElement, 'out');
       }
+
+      // Подготовка следующего (активного) слайда: сразу прячет контент,
+      // чтобы избежать "мигания" при повторных циклах перелистывания
+      const nextSlide = swiper.slides[swiper.activeIndex];
+      if (nextSlide) {
+          const imageRevealWrapper = nextSlide.querySelector('.photobook-image-reveal');
+          const image = nextSlide.querySelector('.photobook-image');
+          const title = nextSlide.querySelector('.photobook-title');
+          const description = nextSlide.querySelector('.photobook-description');
+          const features = nextSlide.querySelectorAll('.photobook-feature');
+          const tags = nextSlide.querySelector('.photobook-tags');
+          const price = nextSlide.querySelector('.photobook-price');
+          const buttonWrapper = nextSlide.querySelector('.photobook-button');
+          const elementsToStagger = [title, description, ...Array.from(features), tags, price, buttonWrapper].filter(Boolean);
+
+          // Сбиваем любые предыдущие tweens для данного слайда
+          gsap.killTweensOf([imageRevealWrapper, image, ...elementsToStagger]);
+
+          // Ставим стартовые стили так, будто анимация ещё не началась
+          gsap.set(elementsToStagger, { opacity: 0, y: 20 });
+          if (imageRevealWrapper) gsap.set(imageRevealWrapper, { clipPath: 'inset(0% 100% 0% 0%)' });
+          if (image) gsap.set(image, { scale: 1.1 });
+      }
   }, [animateSlideContent]);
 
   const handleSlideChangeEnd = useCallback((swiper: SwiperCore) => {
@@ -196,7 +220,7 @@ export const PhotoBooks: React.FC = () => {
   }, [animateSlideContent]);
 
   useEffect(() => {
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.6 } });
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.3 } });
 
     const animateSection = (ref: React.RefObject<HTMLElement | null>, childrenSelector?: string, stagger: number = 0.15) => {
         if (ref.current) {
@@ -226,7 +250,7 @@ export const PhotoBooks: React.FC = () => {
         const title = formatsSectionRef.current.querySelector('h3');
         const slider = formatsSectionRef.current.querySelector('.photobook-slider-wrapper');
         if (title) tl.fromTo(title, {opacity:0, y:20}, {opacity:1, y:0, duration: 0.5}, "+=0.1");
-        if (slider) tl.fromTo(slider, {opacity:0, y:30}, {opacity:1, y:0, duration:0.6}, "-=0.3");
+        if (slider) tl.fromTo(slider, {opacity:0, y:30}, {opacity:1, y:0, duration:0.3}, "-=0.3");
     }
     
     if (orderFormSectionRef.current) {
@@ -286,7 +310,7 @@ export const PhotoBooks: React.FC = () => {
           const totalScrollHeightVal = firstRepeatedItem.offsetTop; 
 
           if (totalScrollHeightVal > 0) { 
-            const scrollSpeedPxPerSec = 20; 
+            const scrollSpeedPxPerSec = 40; 
             const calculatedAnimationDuration = totalScrollHeightVal / scrollSpeedPxPerSec;
 
             galleryAnimationTweenRef.current = gsap.fromTo(
@@ -352,6 +376,14 @@ export const PhotoBooks: React.FC = () => {
     { title: "Мы создаем макет", description: "Наши дизайнеры сверстают красивый макет и согласуют его с вами.", iconPath: "M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" },
     { title: "Получите книгу", description: "Качественная печать и бережная доставка вашей уникальной фотокниги.", iconPath: "M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0c-.566.057-.987.538-.987 1.106v.958m12.026 0H4.474" },
   ];
+
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+  useEffect(() => {
+    if (showSwipeHint) {
+      const timer = setTimeout(() => setShowSwipeHint(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [showSwipeHint]);
 
   return (
     <div className="space-y-16 md:space-y-20">
@@ -473,7 +505,7 @@ export const PhotoBooks: React.FC = () => {
                                     </ul>
 
                                     {format.bestSuitedFor && (
-                                        <div className="photobook-tags photobook-item-animate flex flex-wrap gap-2 mb-8">
+                                        <div className="photobook-tags photobook-item-animate flex flex-wrap gap-2 mb-8 hidden md:flex">
                                             {format.bestSuitedFor.map(tag => (
                                                 <span key={tag} className="inline-block bg-brand-light text-brand-dark text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>
                                             ))}
@@ -496,6 +528,24 @@ export const PhotoBooks: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+                        <div className="mt-3 md:hidden flex items-center justify-center gap-6 w-full">
+                          <button
+                            type="button"
+                            className="flex items-center justify-center w-12 h-12 bg-black/20 rounded-full text-white text-3xl active:scale-90 transition-transform"
+                            onClick={() => document.querySelector('.swiper-button-prev-custom')?.dispatchEvent(new Event('click', { bubbles: true }))}
+                            aria-label="Предыдущий формат"
+                          >
+                            <MdChevronLeft />
+                          </button>
+                          <button
+                            type="button"
+                            className="flex items-center justify-center w-12 h-12 bg-black/20 rounded-full text-white text-3xl active:scale-90 transition-transform"
+                            onClick={() => document.querySelector('.swiper-button-next-custom')?.dispatchEvent(new Event('click', { bubbles: true }))}
+                            aria-label="Следующий формат"
+                          >
+                            <MdChevronRight />
+                          </button>
+                        </div>
                     </SwiperSlide>
                 ))}
             </Swiper>
@@ -513,6 +563,12 @@ export const PhotoBooks: React.FC = () => {
             {/* Custom Pagination */}
             <div className="swiper-pagination-custom absolute bottom-4 left-1/2 -translate-x-1/2 w-auto flex space-x-2"></div>
         </div>
+
+        {showSwipeHint && (
+          <div className="md:hidden absolute left-1/2 -translate-x-1/2 top-4 z-20 flex items-center bg-black/60 text-white px-4 py-2 rounded-full text-xs animate-pulse pointer-events-none select-none">
+            <span>Листайте варианты&nbsp;→</span>
+          </div>
+        )}
       </section>
       
       {submissionMessage && (
