@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import type { FlowerProduct, CartItem, Store } from '../types';
+import type { FlowerProduct, Store } from '../types';
 import { City } from '../types';
 import { Button } from './common/Button';
 import { Modal } from './common/Modal';
 import { useShoppingCart } from '../contexts/ShoppingCartContext';
-import { InputField } from './common/InputField';
 import { gsap } from 'gsap';
-import { HiOutlineHeart, HiMiniStar, HiOutlineAdjustmentsHorizontal, HiOutlineChevronDown, HiOutlineTag, HiOutlineSparkles, HiOutlineUser, HiOutlineMapPin, HiOutlineArrowDownTray, HiOutlineArrowRightOnRectangle, HiOutlineListBullet } from 'react-icons/hi2';
-import { MdStore, MdFilterList, MdShoppingCart } from 'react-icons/md';
+import { HiOutlineHeart, HiMiniStar, HiOutlineAdjustmentsHorizontal, HiOutlineChevronDown, HiOutlineTag, HiOutlineSparkles, HiOutlineMapPin, HiOutlineArrowDownTray } from 'react-icons/hi2';
+import { MdFilterList } from 'react-icons/md';
 
 const storesData: Store[] = [
     { id: 's_en', name: 'Цветочный Дворик (Енакиево)', city: City.ENAKIEVO, address: 'ул. Ленина, 52', operatingHours: "8:00 - 20:00", imageUrl: 'https://picsum.photos/seed/store_enakievo/600/400' },
@@ -16,31 +15,31 @@ const storesData: Store[] = [
 ];
 
 export const flowerProductsData: FlowerProduct[] = [
-  { id: 'f1', name: 'Букет "Пионы 11 штук в крафте"', price: 4290, originalPrice: 5363, imageUrls: ['/images/flowers/flowers_cards/11 Peonies in Craft Paper.png'], description: 'Роскошные пионы в стильной крафтовой упаковке.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['Любимой девушке', 'Маме'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f2', name: 'Букет "Воздушные Пионы"', price: 2990, originalPrice: 3738, imageUrls: ['/images/flowers/flowers_cards/Airy Peonies.png'], description: 'Нежные и ароматные пионы.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['На день рождения'], storeIds: ['s_en'] },
-  { id: 'f3', name: 'Пионы 11 штук', price: 4900, imageUrls: ['/images/flowers/flowers_cards/11 Peonies.png'], description: 'Классический букет из 11 пионов.', category: 'Монобукеты', rating: 4.79, reviewsCount: 5100, flowerTypesIncluded: ['Пионы'], isPopular: true, storeIds: ['s_kir'] },
-  { id: 'f7', name: 'Гортензия с пионовидными розами', price: 3496, originalPrice: 4600, imageUrls: ['/images/flowers/flowers_cards/Hydrangea with Peony Roses.png'], description: 'Элегантное сочетание гортензии и роз.', category: 'Авторские букеты', rating: 4.90, reviewsCount: 2500, flowerTypesIncluded: ['Гортензия', 'Розы'], deliveryTime: 60, occasionTags: ['Маме'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f8', name: 'Пионы 9 штук', price: 3900, imageUrls: ['/images/flowers/flowers_cards/9 Peonies.png'], description: 'Компактный букет из 9 пионов.', category: 'Монобукеты', rating: 4.88, reviewsCount: 3200, flowerTypesIncluded: ['Пионы'], isReadyMade: true, storeIds: ['s_en'] },
-  { id: 'f9', name: 'Букет "Нежные летние альстромерии"', price: 2793, originalPrice: 3990, imageUrls: ['/images/flowers/flowers_cards/Summer Alstroemeria Bouquet.png'], description: 'Яркие и стойкие альстромерии.', category: 'Монобукеты', rating: 4.81, reviewsCount: 2800, flowerTypesIncluded: ['Альстромерии'], deliveryTime: 90, storeIds: ['s_kir'] },
-  { id: 'f10', name: 'Букет из 5 эустом в крафте', price: 2999, originalPrice: 3588, imageUrls: ['/images/flowers/flowers_cards/Bouquet of 5 Eustomas in Craft Paper.png'], description: 'Нежные эустомы в крафте.', category: 'Монобукеты', rating: 4.85, reviewsCount: 2200, flowerTypesIncluded: ['Эустома'], occasionTags: ['Любимой девушке'], storeIds: ['s_en'] },
-  { id: 'f11', name: 'Лавандовые сны', price: 3960, originalPrice: 4800, imageUrls: ['/images/flowers/flowers_cards/Lavender Dreams.png'], description: 'Ароматный букет с лавандой.', category: 'Авторские букеты', rating: 4.83, reviewsCount: 4400, flowerTypesIncluded: ['Лаванда', 'Розы'], isPopular: true, storeIds: ['s_kir', 's_en'] },
-  { id: 'f12', name: 'Букет с пионовидными розами', price: 3467, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/Bouquet with Peony Roses.png'], description: 'Роскошные пионовидные розы.', category: 'Монобукеты', rating: 4.83, reviewsCount: 5000, flowerTypesIncluded: ['Розы пионовидные'], occasionTags: ['Маме', 'Любимой девушке'], storeIds: ['s_en'] },
-  { id: 'f13', name: 'Букет Лидия', price: 2490, originalPrice: 3113, imageUrls: ['/images/flowers/flowers_cards/Lydia Bouquet.png'], description: 'Яркий и жизнерадостный букет.', category: 'Авторские букеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Герберы', 'Хризантемы'], isReadyMade: true, deliveryTime: 75, storeIds: ['s_kir'] },
-  { id: 'f14', name: 'Пионы Сара Бернар с эвкалиптом 11шт', price: 3480, originalPrice: 5800, imageUrls: ['/images/flowers/flowers_cards/Sarah Bernhardt Peonies with Eucalyptus (11 pcs.png'], description: 'Знаменитые пионы Сара Бернар.', category: 'Монобукеты', rating: 4.93, reviewsCount: 9470, flowerTypesIncluded: ['Пионы', 'Эвкалипт'], isPopular: true, occasionTags: ['Любимой девушке', 'На день рождения'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f15', name: 'Букет французские розы и ромашка', price: 2996, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/French Roses and Chamomile Bouquet.png'], description: 'Классическое сочетание роз и ромашек.', category: 'Авторские букеты', rating: 4.97, reviewsCount: 2000, flowerTypesIncluded: ['Розы', 'Ромашки'], deliveryTime: 90, storeIds: ['s_en'] },
-  { id: 'f16', name: 'Розы в элегантной коробке', price: 3800, imageUrls: ['/images/flowers/flowers_cards/Roses in an Elegant Box.png'], description: 'Красные розы в стильной шляпной коробке.', category: 'Цветы в коробке', rating: 4.9, reviewsCount: 1500, flowerTypesIncluded: ['Розы'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f17', name: 'Весенняя корзина с тюльпанами', price: 3200, imageUrls: ['/images/flowers/flowers_cards/Spring Basket with Tulips.png'], description: 'Яркие тюльпаны в плетеной корзине.', category: 'Цветы в корзине', rating: 4.8, reviewsCount: 980, flowerTypesIncluded: ['Тюльпаны'], storeIds: ['s_kir'] },
-  { id: 'f18', name: 'Роза красная поштучно', price: 250, imageUrls: ['/images/flowers/flowers_cards/Single Red Rose.png'], description: 'Одна великолепная красная роза.', category: 'Цветы поштучно', storeIds: ['s_en'] },
-  { id: 'f19', name: 'Букет из лаванды и хлопка (сухоцветы)', price: 2800, imageUrls: ['/images/flowers/flowers_cards/Bouquet of Lavender and Cotton (Dried Flowers).png'], description: 'Долговечный букет из сухоцветов.', category: 'Букеты из сухоцветов', rating: 4.7, reviewsCount: 750, flowerTypesIncluded: ['Лаванда', 'Хлопок'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f20', name: 'Подарочный набор "Сладкоежка"', price: 4500, imageUrls: ['/images/flowers/flowers_cards/Gift Set Sweet Tooth.png'], description: 'Букет роз и коробка конфет.', category: 'Подарочные наборы', flowerTypesIncluded: ['Розы'], storeIds: ['s_en'] },
-  { id: 'f21', name: 'Милый плюшевый мишка', price: 1500, imageUrls: ['/images/flowers/flowers_cards/Cute Plush Bear.png'], description: 'Мягкий и очаровательный мишка.', category: 'Мягкие игрушки', storeIds: ['s_kir', 's_en'] },
-  { id: 'f22', name: 'Открытка "С Днем Рождения!"', price: 150, imageUrls: ['/images/flowers/flowers_cards/Greeting Card Happy Birthday!.png'], description: 'Красивая поздравительная открытка.', category: 'Открытки', storeIds: ['s_en', 's_kir'] },
-  { id: 'f23', name: 'Фруктовый букет "Витаминный взрыв"', price: 3900, imageUrls: ['/images/flowers/flowers_cards/Fruit Bouquet Vitamin Blast.png'], description: 'Яркий и полезный букет из свежих фруктов.', category: 'Съедобные букеты', rating: 4.9, reviewsCount: 1200, storeIds: ['s_en'] },
-  { id: 'f24', name: 'Воздушные шары "Ассорти" (10 шт)', price: 1200, imageUrls: ['/images/flowers/flowers_cards/Balloons Assorted (10 pcs).png'], description: 'Набор из 10 разноцветных гелиевых шаров.', category: 'Воздушные шары', storeIds: ['s_kir'] },
-  { id: 'f25', name: 'Комнатное растение "Фикус Бенджамина"', price: 2200, imageUrls: ['/images/flowers/flowers_cards/Houseplant Ficus Benjamina.png'], description: 'Вечнозеленое растение для уюта в доме.', category: 'Комнатные растения', storeIds: ['s_en', 's_kir'] },
-  { id: 'f26', name: 'Композиция "Орхидея в кашпо"', price: 3500, imageUrls: ['/images/flowers/flowers_cards/Arrangement Orchid in a Pot.png'], description: 'Изящная орхидея в керамическом кашпо.', category: 'Комнатные растения', isPopular: true, storeIds: ['s_en'] },
-  { id: 'f27', name: 'Свадебный букет "Нежность"', price: 5500, imageUrls: ['/images/flowers/flowers_cards/Wedding Bouquet Tenderness.png'], description: 'Классический свадебный букет из белых роз и эустом.', category: 'Авторские букеты', occasionTags: ['Свадьба'], flowerTypesIncluded: ['Розы', 'Эустома'], storeIds: ['s_en', 's_kir'] },
-  { id: 'f28', name: 'Цветы в коробке "Радуга"', price: 4200, imageUrls: ['/images/flowers/flowers_cards/Flowers in a Box Rainbow.png'], description: 'Яркие разноцветные герберы в шляпной коробке.', category: 'Цветы в коробке', flowerTypesIncluded: ['Герберы'], storeIds: ['s_kir'] },
+  { id: 'f1', name: 'Букет "Пионы 11 штук в крафте"', price: 4290, originalPrice: 5363, imageUrls: ['/images/flowers/flowers_cards/11 Peonies in Craft Paper.webp'], description: 'Роскошные пионы в стильной крафтовой упаковке.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['Любимой девушке', 'Маме'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f2', name: 'Букет "Воздушные Пионы"', price: 2990, originalPrice: 3738, imageUrls: ['/images/flowers/flowers_cards/Airy Peonies.webp'], description: 'Нежные и ароматные пионы.', category: 'Монобукеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Пионы'], occasionTags: ['На день рождения'], storeIds: ['s_en'] },
+  { id: 'f3', name: 'Пионы 11 штук', price: 4900, imageUrls: ['/images/flowers/flowers_cards/11 Peonies.webp'], description: 'Классический букет из 11 пионов.', category: 'Монобукеты', rating: 4.79, reviewsCount: 5100, flowerTypesIncluded: ['Пионы'], isPopular: true, storeIds: ['s_kir'] },
+  { id: 'f7', name: 'Гортензия с пионовидными розами', price: 3496, originalPrice: 4600, imageUrls: ['/images/flowers/flowers_cards/Hydrangea with Peony Roses.webp'], description: 'Элегантное сочетание гортензии и роз.', category: 'Авторские букеты', rating: 4.90, reviewsCount: 2500, flowerTypesIncluded: ['Гортензия', 'Розы'], deliveryTime: 60, occasionTags: ['Маме'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f8', name: 'Пионы 9 штук', price: 3900, imageUrls: ['/images/flowers/flowers_cards/9 Peonies.webp'], description: 'Компактный букет из 9 пионов.', category: 'Монобукеты', rating: 4.88, reviewsCount: 3200, flowerTypesIncluded: ['Пионы'], isReadyMade: true, storeIds: ['s_en'] },
+  { id: 'f9', name: 'Букет "Нежные летние альстромерии"', price: 2793, originalPrice: 3990, imageUrls: ['/images/flowers/flowers_cards/Summer Alstroemeria Bouquet.webp'], description: 'Яркие и стойкие альстромерии.', category: 'Монобукеты', rating: 4.81, reviewsCount: 2800, flowerTypesIncluded: ['Альстромерии'], deliveryTime: 90, storeIds: ['s_kir'] },
+  { id: 'f10', name: 'Букет из 5 эустом в крафте', price: 2999, originalPrice: 3588, imageUrls: ['/images/flowers/flowers_cards/Bouquet of 5 Eustomas in Craft Paper.webp'], description: 'Нежные эустомы в крафте.', category: 'Монобукеты', rating: 4.85, reviewsCount: 2200, flowerTypesIncluded: ['Эустома'], occasionTags: ['Любимой девушке'], storeIds: ['s_en'] },
+  { id: 'f11', name: 'Лавандовые сны', price: 3960, originalPrice: 4800, imageUrls: ['/images/flowers/flowers_cards/Lavender Dreams.webp'], description: 'Ароматный букет с лавандой.', category: 'Авторские букеты', rating: 4.83, reviewsCount: 4400, flowerTypesIncluded: ['Лаванда', 'Розы'], isPopular: true, storeIds: ['s_kir', 's_en'] },
+  { id: 'f12', name: 'Букет с пионовидными розами', price: 3467, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/Bouquet with Peony Roses.webp'], description: 'Роскошные пионовидные розы.', category: 'Монобукеты', rating: 4.83, reviewsCount: 5000, flowerTypesIncluded: ['Розы пионовидные'], occasionTags: ['Маме', 'Любимой девушке'], storeIds: ['s_en'] },
+  { id: 'f13', name: 'Букет Лидия', price: 2490, originalPrice: 3113, imageUrls: ['/images/flowers/flowers_cards/Lydia Bouquet.webp'], description: 'Яркий и жизнерадостный букет.', category: 'Авторские букеты', rating: 4.89, reviewsCount: 3540, flowerTypesIncluded: ['Герберы', 'Хризантемы'], isReadyMade: true, deliveryTime: 75, storeIds: ['s_kir'] },
+  { id: 'f14', name: 'Пионы Сара Бернар с эвкалиптом 11шт', price: 3480, originalPrice: 5800, imageUrls: ['/images/flowers/flowers_cards/Sarah Bernhardt Peonies with Eucalyptus (11 pcs.webp'], description: 'Знаменитые пионы Сара Бернар.', category: 'Монобукеты', rating: 4.93, reviewsCount: 9470, flowerTypesIncluded: ['Пионы', 'Эвкалипт'], isPopular: true, occasionTags: ['Любимой девушке', 'На день рождения'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f15', name: 'Букет французские розы и ромашка', price: 2996, originalPrice: 4280, imageUrls: ['/images/flowers/flowers_cards/French Roses and Chamomile Bouquet.webp'], description: 'Классическое сочетание роз и ромашек.', category: 'Авторские букеты', rating: 4.97, reviewsCount: 2000, flowerTypesIncluded: ['Розы', 'Ромашки'], deliveryTime: 90, storeIds: ['s_en'] },
+  { id: 'f16', name: 'Розы в элегантной коробке', price: 3800, imageUrls: ['/images/flowers/flowers_cards/Roses in an Elegant Box.webp'], description: 'Красные розы в стильной шляпной коробке.', category: 'Цветы в коробке', rating: 4.9, reviewsCount: 1500, flowerTypesIncluded: ['Розы'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f17', name: 'Весенняя корзина с тюльпанами', price: 3200, imageUrls: ['/images/flowers/flowers_cards/Spring Basket with Tulips.webp'], description: 'Яркие тюльпаны в плетеной корзине.', category: 'Цветы в корзине', rating: 4.8, reviewsCount: 980, flowerTypesIncluded: ['Тюльпаны'], storeIds: ['s_kir'] },
+  { id: 'f18', name: 'Роза красная поштучно', price: 250, imageUrls: ['/images/flowers/flowers_cards/Single Red Rose.webp'], description: 'Одна великолепная красная роза.', category: 'Цветы поштучно', storeIds: ['s_en'] },
+  { id: 'f19', name: 'Букет из лаванды и хлопка (сухоцветы)', price: 2800, imageUrls: ['/images/flowers/flowers_cards/Bouquet of Lavender and Cotton (Dried Flowers).webp'], description: 'Долговечный букет из сухоцветов.', category: 'Букеты из сухоцветов', rating: 4.7, reviewsCount: 750, flowerTypesIncluded: ['Лаванда', 'Хлопок'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f20', name: 'Подарочный набор "Сладкоежка"', price: 4500, imageUrls: ['/images/flowers/flowers_cards/Gift Set Sweet Tooth.webp'], description: 'Букет роз и коробка конфет.', category: 'Подарочные наборы', flowerTypesIncluded: ['Розы'], storeIds: ['s_en'] },
+  { id: 'f21', name: 'Милый плюшевый мишка', price: 1500, imageUrls: ['/images/flowers/flowers_cards/Cute Plush Bear.webp'], description: 'Мягкий и очаровательный мишка.', category: 'Мягкие игрушки', storeIds: ['s_kir', 's_en'] },
+  { id: 'f22', name: 'Открытка "С Днем Рождения!"', price: 150, imageUrls: ['/images/flowers/flowers_cards/Greeting Card Happy Birthday!.webp'], description: 'Красивая поздравительная открытка.', category: 'Открытки', storeIds: ['s_en', 's_kir'] },
+  { id: 'f23', name: 'Фруктовый букет "Витаминный взрыв"', price: 3900, imageUrls: ['/images/flowers/flowers_cards/Fruit Bouquet Vitamin Blast.webp'], description: 'Яркий и полезный букет из свежих фруктов.', category: 'Съедобные букеты', rating: 4.9, reviewsCount: 1200, storeIds: ['s_en'] },
+  { id: 'f24', name: 'Воздушные шары "Ассорти" (10 шт)', price: 1200, imageUrls: ['/images/flowers/flowers_cards/Balloons Assorted (10 pcs).webp'], description: 'Набор из 10 разноцветных гелиевых шаров.', category: 'Воздушные шары', storeIds: ['s_kir'] },
+  { id: 'f25', name: 'Комнатное растение "Фикус Бенджамина"', price: 2200, imageUrls: ['/images/flowers/flowers_cards/Houseplant Ficus Benjamina.webp'], description: 'Вечнозеленое растение для уюта в доме.', category: 'Комнатные растения', storeIds: ['s_en', 's_kir'] },
+  { id: 'f26', name: 'Композиция "Орхидея в кашпо"', price: 3500, imageUrls: ['/images/flowers/flowers_cards/Arrangement Orchid in a Pot.webp'], description: 'Изящная орхидея в керамическом кашпо.', category: 'Комнатные растения', isPopular: true, storeIds: ['s_en'] },
+  { id: 'f27', name: 'Свадебный букет "Нежность"', price: 5500, imageUrls: ['/images/flowers/flowers_cards/Wedding Bouquet Tenderness.webp'], description: 'Классический свадебный букет из белых роз и эустом.', category: 'Авторские букеты', occasionTags: ['Свадьба'], flowerTypesIncluded: ['Розы', 'Эустома'], storeIds: ['s_en', 's_kir'] },
+  { id: 'f28', name: 'Цветы в коробке "Радуга"', price: 4200, imageUrls: ['/images/flowers/flowers_cards/Flowers in a Box Rainbow.webp'], description: 'Яркие разноцветные герберы в шляпной коробке.', category: 'Цветы в коробке', flowerTypesIncluded: ['Герберы'], storeIds: ['s_kir'] },
 ];
 
 
@@ -76,18 +75,18 @@ const sortOptions = [
 ];
 
 const subCategories = [
-    { name: "Монобукеты", icon: "/images/flowers/categories/Monobouquets.png", filterValue: "Монобукеты" },
-    { name: "Авторские", icon: "/images/flowers/categories/Designer_Bouquets.png", filterValue: "Авторские букеты" },
-    { name: "В коробке", icon: "/images/flowers/categories/Flowers_in_a_Box.png", filterValue: "Цветы в коробке" },
-    { name: "В корзине", icon: "/images/flowers/categories/Flowers_in_a_Basket.png", filterValue: "Цветы в корзине" },
-    { name: "Поштучно", icon: "/images/flowers/categories/Single_Flowers.png", filterValue: "Цветы поштучно" },
-    { name: "Сухоцветы", icon: "/images/flowers/categories/Dried_Flower_Bouquets.png", filterValue: "Букеты из сухоцветов" },
-    { name: "Наборы", icon: "/images/flowers/categories/Gift_Sets.png", filterValue: "Подарочные наборы" },
-    { name: "Игрушки", icon: "/images/flowers/categories/Soft_Toys.png", filterValue: "Мягкие игрушки" },
-    { name: "Открытки", icon: "/images/flowers/categories/Greeting_Cards.png", filterValue: "Открытки" },
-    { name: "Съедобные", icon: "/images/flowers/categories/Edible_Bouquets.png", filterValue: "Съедобные букеты" },
-    { name: "Шары", icon: "/images/flowers/categories/Balloons.png", filterValue: "Воздушные шары" },
-    { name: "Растения", icon: "/images/flowers/categories/Houseplants.png", filterValue: "Комнатные растения" },
+    { name: "Монобукеты", icon: "/images/flowers/categories/Monobouquets.webp", filterValue: "Монобукеты" },
+    { name: "Авторские", icon: "/images/flowers/categories/Designer_Bouquets.webp", filterValue: "Авторские букеты" },
+    { name: "В коробке", icon: "/images/flowers/categories/Flowers_in_a_Box.webp", filterValue: "Цветы в коробке" },
+    { name: "В корзине", icon: "/images/flowers/categories/Flowers_in_a_Basket.webp", filterValue: "Цветы в корзине" },
+    { name: "Поштучно", icon: "/images/flowers/categories/Single_Flowers.webp", filterValue: "Цветы поштучно" },
+    { name: "Сухоцветы", icon: "/images/flowers/categories/Dried_Flower_Bouquets.webp", filterValue: "Букеты из сухоцветов" },
+    { name: "Наборы", icon: "/images/flowers/categories/Gift_Sets.webp", filterValue: "Подарочные наборы" },
+    { name: "Игрушки", icon: "/images/flowers/categories/Soft_Toys.webp", filterValue: "Мягкие игрушки" },
+    { name: "Открытки", icon: "/images/flowers/categories/Greeting_Cards.webp", filterValue: "Открытки" },
+    { name: "Съедобные", icon: "/images/flowers/categories/Edible_Bouquets.webp", filterValue: "Съедобные букеты" },
+    { name: "Шары", icon: "/images/flowers/categories/Balloons.webp", filterValue: "Воздушные шары" },
+    { name: "Растения", icon: "/images/flowers/categories/Houseplants.webp", filterValue: "Комнатные растения" },
 ];
 // Desktop specific category lists
 const desktopSubCategories = subCategories.slice(0,7);

@@ -1,0 +1,155 @@
+Лог сессии от 2025-07-01 06:03:33
+
+[36m--- Поиск PNG файлов для замены... ---
+[32mНайдено файлов для замены: 67
+
+[36m--- Начало процесса замены PNG на WebP ---
+[37m[1/67] [32m✅ ЗАМЕНЕН: [1mBalloons.png[0m -> [1mBalloons.webp[0m
+   Размер: 509.75 KB -> 14.46 KB | Экономия: [32m495.30 KB
+[37m[2/67] [32m✅ ЗАМЕНЕН: [1mDesigner_Bouquets.png[0m -> [1mDesigner_Bouquets.webp[0m
+   Размер: 609.06 KB -> 11.24 KB | Экономия: [32m597.82 KB
+[37m[3/67] [32m✅ ЗАМЕНЕН: [1mDried_Flower_Bouquets.png[0m -> [1mDried_Flower_Bouquets.webp[0m
+   Размер: 646.61 KB -> 19.89 KB | Экономия: [32m626.71 KB
+[37m[4/67] [32m✅ ЗАМЕНЕН: [1mEdible_Bouquets.png[0m -> [1mEdible_Bouquets.webp[0m
+   Размер: 602.25 KB -> 15.31 KB | Экономия: [32m586.93 KB
+[37m[5/67] [32m✅ ЗАМЕНЕН: [1mFlowers_in_a_Basket.png[0m -> [1mFlowers_in_a_Basket.webp[0m
+   Размер: 464.92 KB -> 18.99 KB | Экономия: [32m445.93 KB
+[37m[6/67] [32m✅ ЗАМЕНЕН: [1mFlowers_in_a_Box.png[0m -> [1mFlowers_in_a_Box.webp[0m
+   Размер: 398.18 KB -> 16.02 KB | Экономия: [32m382.15 KB
+[37m[7/67] [32m✅ ЗАМЕНЕН: [1mGift_Sets.png[0m -> [1mGift_Sets.webp[0m
+   Размер: 727.07 KB -> 36.34 KB | Экономия: [32m690.72 KB
+[37m[8/67] [32m✅ ЗАМЕНЕН: [1mGreeting_Cards.png[0m -> [1mGreeting_Cards.webp[0m
+   Размер: 518.82 KB -> 7.61 KB | Экономия: [32m511.21 KB
+[37m[9/67] [32m✅ ЗАМЕНЕН: [1mHouseplants.png[0m -> [1mHouseplants.webp[0m
+   Размер: 487.56 KB -> 8.14 KB | Экономия: [32m479.42 KB
+[37m[10/67] [32m✅ ЗАМЕНЕН: [1mMonobouquets.png[0m -> [1mMonobouquets.webp[0m
+   Размер: 301.29 KB -> 7.13 KB | Экономия: [32m294.15 KB
+[37m[11/67] [32m✅ ЗАМЕНЕН: [1mSingle_Flowers.png[0m -> [1mSingle_Flowers.webp[0m
+   Размер: 485.53 KB -> 7.57 KB | Экономия: [32m477.96 KB
+[37m[12/67] [32m✅ ЗАМЕНЕН: [1mSoft_Toys.png[0m -> [1mSoft_Toys.webp[0m
+   Размер: 477.83 KB -> 11.10 KB | Экономия: [32m466.72 KB
+[37m[13/67] [32m✅ ЗАМЕНЕН: [1m11 Peonies in Craft Paper.png[0m -> [1m11 Peonies in Craft Paper.webp[0m
+   Размер: 1.65 MB -> 43.71 KB | Экономия: [32m1.61 MB
+[37m[14/67] [32m✅ ЗАМЕНЕН: [1m11 Peonies.png[0m -> [1m11 Peonies.webp[0m
+   Размер: 2.39 MB -> 56.85 KB | Экономия: [32m2.33 MB
+[37m[15/67] [32m✅ ЗАМЕНЕН: [1m9 Peonies.png[0m -> [1m9 Peonies.webp[0m
+   Размер: 1.58 MB -> 48.96 KB | Экономия: [32m1.54 MB
+[37m[16/67] [32m✅ ЗАМЕНЕН: [1mAiry Peonies.png[0m -> [1mAiry Peonies.webp[0m
+   Размер: 1.14 MB -> 25.61 KB | Экономия: [32m1.12 MB
+[37m[17/67] [32m✅ ЗАМЕНЕН: [1mArrangement Orchid in a Pot.png[0m -> [1mArrangement Orchid in a Pot.webp[0m
+   Размер: 1.16 MB -> 25.51 KB | Экономия: [32m1.13 MB
+[37m[18/67] [32m✅ ЗАМЕНЕН: [1mBalloons Assorted (10 pcs).png[0m -> [1mBalloons Assorted (10 pcs).webp[0m
+   Размер: 1.19 MB -> 26.02 KB | Экономия: [32m1.16 MB
+[37m[19/67] [32m✅ ЗАМЕНЕН: [1mBouquet French Roses and Chamomile.png[0m -> [1mBouquet French Roses and Chamomile.webp[0m
+   Размер: 2.45 MB -> 75.68 KB | Экономия: [32m2.37 MB
+[37m[20/67] [32m✅ ЗАМЕНЕН: [1mBouquet of 5 Eustomas in Craft Paper.png[0m -> [1mBouquet of 5 Eustomas in Craft Paper.webp[0m
+   Размер: 1.98 MB -> 46.33 KB | Экономия: [32m1.94 MB
+[37m[21/67] [32m✅ ЗАМЕНЕН: [1mBouquet of Lavender and Cotton (Dried Flowers).png[0m -> [1mBouquet of Lavender and Cotton (Dried Flowers).webp[0m
+   Размер: 1.81 MB -> 82.47 KB | Экономия: [32m1.73 MB
+[37m[22/67] [32m✅ ЗАМЕНЕН: [1mBouquet with Peony Roses.png[0m -> [1mBouquet with Peony Roses.webp[0m
+   Размер: 2.53 MB -> 80.56 KB | Экономия: [32m2.46 MB
+[37m[23/67] [32m✅ ЗАМЕНЕН: [1mCute Plush Bear.png[0m -> [1mCute Plush Bear.webp[0m
+   Размер: 1.24 MB -> 47.96 KB | Экономия: [32m1.19 MB
+[37m[24/67] [32m✅ ЗАМЕНЕН: [1mFlowers in a Box Rainbow.png[0m -> [1mFlowers in a Box Rainbow.webp[0m
+   Размер: 2.65 MB -> 98.49 KB | Экономия: [32m2.55 MB
+[37m[25/67] [32m✅ ЗАМЕНЕН: [1mFrench Roses and Chamomile Bouquet.png[0m -> [1mFrench Roses and Chamomile Bouquet.webp[0m
+   Размер: 2.42 MB -> 77.54 KB | Экономия: [32m2.34 MB
+[37m[26/67] [32m✅ ЗАМЕНЕН: [1mFruit Bouquet Vitamin Blast.png[0m -> [1mFruit Bouquet Vitamin Blast.webp[0m
+   Размер: 2.16 MB -> 53.03 KB | Экономия: [32m2.11 MB
+[37m[27/67] [32m✅ ЗАМЕНЕН: [1mGift Set Sweet Tooth.png[0m -> [1mGift Set Sweet Tooth.webp[0m
+   Размер: 1.86 MB -> 56.07 KB | Экономия: [32m1.81 MB
+[37m[28/67] [32m✅ ЗАМЕНЕН: [1mGreeting Card Happy Birthday!.png[0m -> [1mGreeting Card Happy Birthday!.webp[0m
+   Размер: 740.46 KB -> 31.03 KB | Экономия: [32m709.43 KB
+[37m[29/67] [32m✅ ЗАМЕНЕН: [1mHouseplant Ficus Benjamina.png[0m -> [1mHouseplant Ficus Benjamina.webp[0m
+   Размер: 954.28 KB -> 38.99 KB | Экономия: [32m915.29 KB
+[37m[30/67] [32m✅ ЗАМЕНЕН: [1mHydrangea with Peony Roses.png[0m -> [1mHydrangea with Peony Roses.webp[0m
+   Размер: 2.42 MB -> 71.12 KB | Экономия: [32m2.35 MB
+[37m[31/67] [32m✅ ЗАМЕНЕН: [1mLavender Dreams.png[0m -> [1mLavender Dreams.webp[0m
+   Размер: 2.32 MB -> 85.83 KB | Экономия: [32m2.24 MB
+[37m[32/67] [32m✅ ЗАМЕНЕН: [1mLydia Bouquet.png[0m -> [1mLydia Bouquet.webp[0m
+   Размер: 2.65 MB -> 129.06 KB | Экономия: [32m2.52 MB
+[37m[33/67] [32m✅ ЗАМЕНЕН: [1mRoses in an Elegant Box.png[0m -> [1mRoses in an Elegant Box.webp[0m
+   Размер: 2.14 MB -> 56.97 KB | Экономия: [32m2.09 MB
+[37m[34/67] [32m✅ ЗАМЕНЕН: [1mSarah Bernhardt Peonies with Eucalyptus (11 pcs.png[0m -> [1mSarah Bernhardt Peonies with Eucalyptus (11 pcs.webp[0m
+   Размер: 1.93 MB -> 63.96 KB | Экономия: [32m1.87 MB
+[37m[35/67] [32m✅ ЗАМЕНЕН: [1mSingle Red Rose.png[0m -> [1mSingle Red Rose.webp[0m
+   Размер: 706.21 KB -> 17.96 KB | Экономия: [32m688.25 KB
+[37m[36/67] [32m✅ ЗАМЕНЕН: [1mSpring Basket with Tulips.png[0m -> [1mSpring Basket with Tulips.webp[0m
+   Размер: 2.08 MB -> 57.36 KB | Экономия: [32m2.02 MB
+[37m[37/67] [32m✅ ЗАМЕНЕН: [1mSummer Alstroemeria Bouquet.png[0m -> [1mSummer Alstroemeria Bouquet.webp[0m
+   Размер: 2.66 MB -> 94.46 KB | Экономия: [32m2.57 MB
+[37m[38/67] [32m✅ ЗАМЕНЕН: [1mWedding Bouquet Tenderness.png[0m -> [1mWedding Bouquet Tenderness.webp[0m
+   Размер: 2.01 MB -> 44.80 KB | Экономия: [32m1.97 MB
+[37m[39/67] [32m✅ ЗАМЕНЕН: [1mhall1_alt1.png[0m -> [1mhall1_alt1.webp[0m
+   Размер: 2.15 MB -> 55.55 KB | Экономия: [32m2.09 MB
+[37m[40/67] [32m✅ ЗАМЕНЕН: [1mhall1_alt2.png[0m -> [1mhall1_alt2.webp[0m
+   Размер: 1.52 MB -> 32.03 KB | Экономия: [32m1.49 MB
+[37m[41/67] [32m✅ ЗАМЕНЕН: [1mhall1_alt3.png[0m -> [1mhall1_alt3.webp[0m
+   Размер: 1.06 MB -> 16.16 KB | Экономия: [32m1.04 MB
+[37m[42/67] [32m✅ ЗАМЕНЕН: [1mhall1_hero.png[0m -> [1mhall1_hero.webp[0m
+   Размер: 2.02 MB -> 54.04 KB | Экономия: [32m1.97 MB
+[37m[43/67] [32m✅ ЗАМЕНЕН: [1mhall2_alt1.png[0m -> [1mhall2_alt1.webp[0m
+   Размер: 1.21 MB -> 17.24 KB | Экономия: [32m1.19 MB
+[37m[44/67] [32m✅ ЗАМЕНЕН: [1mhall2_alt2.png[0m -> [1mhall2_alt2.webp[0m
+   Размер: 927.74 KB -> 13.35 KB | Экономия: [32m914.39 KB
+[37m[45/67] [32m✅ ЗАМЕНЕН: [1mhall2_hero.png[0m -> [1mhall2_hero.webp[0m
+   Размер: 1.87 MB -> 35.98 KB | Экономия: [32m1.84 MB
+[37m[46/67] [32m✅ ЗАМЕНЕН: [1minstructor_alex.png[0m -> [1minstructor_alex.webp[0m
+   Размер: 1.35 MB -> 29.69 KB | Экономия: [32m1.32 MB
+[37m[47/67] [32m✅ ЗАМЕНЕН: [1minstructor_elena.png[0m -> [1minstructor_elena.webp[0m
+   Размер: 1.64 MB -> 34.19 KB | Экономия: [32m1.61 MB
+[37m[48/67] [32m✅ ЗАМЕНЕН: [1minstructor_ivan.png[0m -> [1minstructor_ivan.webp[0m
+   Размер: 1.31 MB -> 26.86 KB | Экономия: [32m1.28 MB
+[37m[49/67] [32m✅ ЗАМЕНЕН: [1mmc1_gallery1.png[0m -> [1mmc1_gallery1.webp[0m
+   Размер: 1.45 MB -> 34.99 KB | Экономия: [32m1.41 MB
+[37m[50/67] [32m✅ ЗАМЕНЕН: [1mmc1_gallery2.png[0m -> [1mmc1_gallery2.webp[0m
+   Размер: 1.64 MB -> 43.74 KB | Экономия: [32m1.60 MB
+[37m[51/67] [32m✅ ЗАМЕНЕН: [1mmc1_hero.png[0m -> [1mmc1_hero.webp[0m
+   Размер: 2.29 MB -> 68.71 KB | Экономия: [32m2.22 MB
+[37m[52/67] [32m✅ ЗАМЕНЕН: [1mmc2_gallery1.png[0m -> [1mmc2_gallery1.webp[0m
+   Размер: 1.99 MB -> 33.53 KB | Экономия: [32m1.96 MB
+[37m[53/67] [32m✅ ЗАМЕНЕН: [1mmc2_hero.png[0m -> [1mmc2_hero.webp[0m
+   Размер: 2.57 MB -> 113.01 KB | Экономия: [32m2.46 MB
+[37m[54/67] [32m✅ ЗАМЕНЕН: [1mmc3_gallery1.png[0m -> [1mmc3_gallery1.webp[0m
+   Размер: 1.77 MB -> 30.83 KB | Экономия: [32m1.74 MB
+[37m[55/67] [32m✅ ЗАМЕНЕН: [1mmc3_gallery2.png[0m -> [1mmc3_gallery2.webp[0m
+   Размер: 2.37 MB -> 80.60 KB | Экономия: [32m2.29 MB
+[37m[56/67] [32m✅ ЗАМЕНЕН: [1mmc3_hero.png[0m -> [1mmc3_hero.webp[0m
+   Размер: 2.13 MB -> 48.48 KB | Экономия: [32m2.08 MB
+[37m[57/67] [32m✅ ЗАМЕНЕН: [1mmc_floristry_card.png[0m -> [1mmc_floristry_card.webp[0m
+   Размер: 2.62 MB -> 111.21 KB | Экономия: [32m2.51 MB
+[37m[58/67] [32m✅ ЗАМЕНЕН: [1mmc_photobook_card.png[0m -> [1mmc_photobook_card.webp[0m
+   Размер: 2.31 MB -> 87.01 KB | Экономия: [32m2.22 MB
+[37m[59/67] [32m✅ ЗАМЕНЕН: [1mmc_studio_card.png[0m -> [1mmc_studio_card.webp[0m
+   Размер: 2.14 MB -> 66.06 KB | Экономия: [32m2.08 MB
+[37m[60/67] [32m✅ ЗАМЕНЕН: [1mClassic 20x20.png[0m -> [1mClassic 20x20.webp[0m
+   Размер: 828.57 KB -> 23.00 KB | Экономия: [32m805.57 KB
+[37m[61/67] [32m✅ ЗАМЕНЕН: [1mInstabook 15x15.png[0m -> [1mInstabook 15x15.webp[0m
+   Размер: 1.04 MB -> 24.94 KB | Экономия: [32m1.02 MB
+[37m[62/67] [32m✅ ЗАМЕНЕН: [1mLite 15x20.png[0m -> [1mLite 15x20.webp[0m
+   Размер: 1.51 MB -> 21.47 KB | Экономия: [32m1.49 MB
+[37m[63/67] [32m✅ ЗАМЕНЕН: [1mPremium 30x30.png[0m -> [1mPremium 30x30.webp[0m
+   Размер: 1.38 MB -> 18.71 KB | Экономия: [32m1.37 MB
+[37m[64/67] [32m✅ ЗАМЕНЕН: [1m1.png[0m -> [1m1.webp[0m
+   Размер: 2.64 MB -> 112.45 KB | Экономия: [32m2.53 MB
+[37m[65/67] [32m✅ ЗАМЕНЕН: [1m2.png[0m -> [1m2.webp[0m
+   Размер: 1.41 MB -> 62.85 KB | Экономия: [32m1.35 MB
+[37m[66/67] [32m✅ ЗАМЕНЕН: [1m1.png[0m -> [1m1.webp[0m
+   Размер: 1.28 MB -> 56.20 KB | Экономия: [32m1.22 MB
+[37m[67/67] [32m✅ ЗАМЕНЕН: [1m1.png[0m -> [1m1.webp[0m
+   Размер: 1.64 MB -> 91.62 KB | Экономия: [32m1.55 MB
+
+============================================================
+[1m[36mИТОГОВЫЙ ОТЧЕТ ПО ЗАМЕНЕ PNG НА WEBP
+============================================================
+  [37mВсего найдено PNG для замены: [1m67
+  [32mУспешно заменено: [1m67
+  [31mФайлов с ошибками: [1m0
+-------------------------
+  [37mИсходный размер (PNG): [1m104.87 MB
+  [37mИтоговый размер (WebP): [1m3.08 MB
+  [32mВсего сэкономлено места: [1m101.79 MB
+  [36mОбщее сжатие относительно PNG: [1m97.06%
+-------------------------
+  [37mВремя выполнения: [1m10.76 сек.
+============================================================
